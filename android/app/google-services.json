@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "376249339122",
+    "project_id": "stockmarketgameincesoy",
+    "storage_bucket": "stockmarketgameincesoy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376249339122:android:c10528895aaa996d6c546b",
+        "android_client_info": {
+          "package_name": "com.stockmarketgameincesoy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOvC3v65hq3aAdFeWL3nbaR4jf_R2YX00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

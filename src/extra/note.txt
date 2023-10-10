@@ -1,0 +1,18 @@
+ios codepush
+appcenter codepush release-react -a inceselim91/StockMarketGame-iOS -d Production
+
+android codepush
+appcenter codepush release-react -a inceselim91/StockMarketGame-Android -d Production
+
+--------------------------------------------------
+firebase hesabı
+91inceselim@gmail.com
+--------------------------------------------------
+$
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+
+--------------------------------------------------

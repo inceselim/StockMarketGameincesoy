@@ -1,0 +1,57 @@
+import React, { useCallback, useEffect } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store/store';
+import MainNavigation from '../navigation/MainNavigation';
+import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
+import {
+  getTrackingStatus,
+  requestTrackingPermission,
+  TrackingStatus,
+} from 'react-native-tracking-transparency';
+import { Alert } from 'react-native';
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  const [trackingStatus, setTrackingStatus] = React.useState<
+    TrackingStatus | '(loading)'
+  >('(loading)');
+
+
+  async function permissionTransparency() {
+    await mobileAds().initialize();
+    //
+    // Tracking Permission
+    //
+    const status = await requestTrackingPermission();
+    setTrackingStatus(status);
+    getTrackingStatus()
+      .then((status: any) => {
+        setTrackingStatus(status);
+      })
+  }
+  useEffect(() => {
+    mobileAds()
+      .setRequestConfiguration({
+        // Update all future requests suitable for parental guidance
+        maxAdContentRating: MaxAdContentRating.PG,
+
+        // Indicates that you want your content treated as child-directed for purposes of COPPA.
+        tagForChildDirectedTreatment: true,
+
+        // Indicates that you want the ad request to be handled in a
+        // manner suitable for users under the age of consent.
+        tagForUnderAgeOfConsent: true,
+
+        // An array of test device IDs to allow.
+        testDeviceIdentifiers: ['EMULATOR'],
+      })
+    permissionTransparency()
+  }, [])
+
+  return (
+    <Provider store={store}>
+      <MainNavigation />
+    </Provider>
+  );
+}

@@ -1,0 +1,17 @@
+[
+    {
+        "childKeys": [
+            "Z7LJ5PsPnWXaMYvuyc1DsYbXuoA3"
+        ],
+        "childrenCount": 1,
+        "exists": true,
+        "hasChildren": true,
+        "key": "users",
+        "priority": null,
+        "value": {
+            "Z7LJ5PsPnWXaMYvuyc1DsYbXuoA3": [Object
+            ]
+        }
+    },
+    "undefined/users"
+]
