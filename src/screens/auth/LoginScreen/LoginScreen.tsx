@@ -7,6 +7,7 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { useNavigation } from '@react-navigation/native';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { LoginFirebase } from '../../../api/LoginFirebase';
+import B1 from '../../../ads/B/B1';
 
 export default function LoginScreen() {
     const navigation: any = useNavigation();
@@ -47,12 +48,15 @@ export default function LoginScreen() {
                         autoCapitalize="none"
                         textContentType="password"
                     />
-                    <TouchableOpacity onPress={()=>navigation.navigate("Reset")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Reset")}>
                         <Text style={styles.text1Bold}>{`${i18n.t("Forgot Your Password")}`}</Text>
                     </TouchableOpacity>
                     <ButtonPrimary onPress={() => login({ userEmail, userPassword })} text={`${i18n.t("SignIn")}`} />
                     <ButtonSecondary onPress={() => navigation.navigate("Register")} text={`${i18n.t("Register")}`} />
                 </KeyboardAvoidingView>
+            </View>
+            <View style={{ alignItems: "center" }}>
+                <B1 />
             </View>
         </SafeAreaView>
     );

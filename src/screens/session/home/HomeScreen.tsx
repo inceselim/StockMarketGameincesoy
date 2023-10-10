@@ -12,6 +12,10 @@ import { ArchiveBook, ArrowDown2, ArrowRight2, Chart1 } from 'iconsax-react-nati
 import {
     LineChart,
 } from "react-native-chart-kit";
+import B1 from '../../../ads/B/B1';
+import B2 from '../../../ads/B/B2';
+import B3 from '../../../ads/B/B3';
+import G1 from '../../../ads/G/G1';
 
 
 
@@ -29,7 +33,7 @@ export default function HomeScreen() {
 
     const [day, setDay] = useState<number>(0);
     const [play, setPlay] = useState<boolean>(false);
-
+    G1()
     useEffect(() => {
         if (play) {
             setTimeout(() => {
@@ -282,6 +286,11 @@ export default function HomeScreen() {
                                 color: colors.white
                             }}>{t("News3")}</Text>
                         </View>
+                    </View>
+                    <View style={{ alignItems: "center" }}>
+                        <B1 />
+                        <B2 />
+                        <B3 />
                     </View>
                 </ScrollView >
             </View>

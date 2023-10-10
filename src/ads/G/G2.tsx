@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-native';
+import { Button, Platform } from 'react-native';
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 
 const adUnitId = Platform.OS === "ios" ?
@@ -13,7 +13,7 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     keywords: ['fashion', 'clothing'],
 });
 
-function g2() {
+function G2() {
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
@@ -36,4 +36,4 @@ function g2() {
         interstitial.show();
     }
 }
-export default g2;
+export default G2;

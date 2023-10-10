@@ -7,6 +7,7 @@ import { ButtonPrimary } from '../../../components/ButtonPrimary';
 import { useNavigation } from '@react-navigation/native';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { RegisterFirebase } from '../../../api/RegisterFirebase';
+import B2 from '../../../ads/B/B2';
 
 export default function RegisterScreen() {
     const navigation: any = useNavigation();
@@ -74,6 +75,9 @@ export default function RegisterScreen() {
                         onPress={() => RegisterMail({ userEmail, userPassword, userName })} text={`${i18n.t("Register")}`} />
                     <ButtonSecondary onPress={() => navigation.navigate("Login")} text={`${i18n.t("Login")}`} />
                 </KeyboardAvoidingView>
+            </View>
+            <View style={{ alignItems: "center" }}>
+                <B2 />
             </View>
         </SafeAreaView>
     );

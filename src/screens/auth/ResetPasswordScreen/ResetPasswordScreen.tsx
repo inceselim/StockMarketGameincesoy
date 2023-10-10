@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { LoginFirebase } from '../../../api/LoginFirebase';
 import ResetPasswordFirebase from '../../../api/ResetPassword';
+import B3 from '../../../ads/B/B3';
 
 export default function ResetPasswordScreen() {
   const navigation: any = useNavigation();
@@ -44,6 +45,9 @@ export default function ResetPasswordScreen() {
           <ButtonPrimary onPress={() => ResetPassword({ userEmail })} text={`${i18n.t("Reset")}`} />
           <ButtonSecondary onPress={() => navigation.navigate("Login")} text={`${i18n.t("Login")}`} />
         </KeyboardAvoidingView>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        <B3 />
       </View>
     </SafeAreaView>
   );

@@ -7,7 +7,7 @@ const adUnitId = Platform.OS === "ios" ?
     "ca-app-pub-1017432203303316/8065881257"
 
 
-function b2() {
+function B2() {
     console.log("D1 ad id:" + adUnitId)
     return (
         <BannerAd
@@ -20,4 +20,4 @@ function b2() {
     );
 }
 
-export default b2;
+export default B2;
