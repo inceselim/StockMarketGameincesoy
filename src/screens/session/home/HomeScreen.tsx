@@ -19,10 +19,15 @@ import G1 from '../../../ads/G/G1';
 
 
 
-interface IAccount {
+interface IStocks {
+    marketTrend: boolean,
+    stocksTrend: {
+        aaTrend: boolean
+    }
     stocks: {
-        aa?: number;
-        ab?: number;
+        aa: number[];
+        abc?: number;
+        cas?: number;
     };
 }
 
@@ -33,21 +38,124 @@ export default function HomeScreen() {
 
     const [day, setDay] = useState<number>(0);
     const [play, setPlay] = useState<boolean>(false);
-    G1()
+    const [pivotTrend, setPivotTrend] = useState<number>(0);
+    const [pivotTrendAA, setPivotTrendAA] = useState<number>(0);
+    const [stocks, setStocks] = useState<IStocks>({
+        marketTrend: true,
+        stocksTrend: { aaTrend: true },
+        stocks: {
+            aa: [22], abc: 12, cas: 12
+        }
+    });
+    const [balance, setBalance] = useState<number>(1000)
+    const nonZeroStocks = Object.entries(stocks.stocks).filter(([key, value]) => value !== 0);
+
+    const addValueToAa = (newValue: number) => {
+        const updatedStocks = { ...stocks }; // Mevcut nesneyi kopyala
+        const aaArray = updatedStocks.stocks.aa || []; // "aa" dizisini al veya oluştur
+        aaArray.push(newValue); // Yeni değeri ekle
+        updatedStocks.stocks.aa = aaArray; // Güncellenmiş diziyi tekrar atan
+        setStocks(updatedStocks); // Yeni nesneyi ayarla
+    }
+
     useEffect(() => {
         if (play) {
             setTimeout(() => {
                 setDay(day + 1)
+                const aaLastValue: number = stocks.stocks.aa[stocks.stocks.aa.length - 1]
+
+                if (aaLastValue < 2) {
+                    setStocks((prevStocks) => ({
+                        ...prevStocks,
+                        stocksTrend: {
+                            ...prevStocks.stocksTrend,
+                            aaTrend: true,
+                        },
+                    }));
+                }
+                // ----------------------------
+                if (stocks.stocksTrend.aaTrend == true) {
+                    if (stocks.marketTrend == true) {
+                        const aaNewValue: number = aaLastValue + Number((Math.random() * 2.4).toFixed(2))
+                        addValueToAa(aaNewValue)
+                    }
+                    else {
+                        const aaNewValue: number = aaLastValue + Number((Math.random() * 1.5).toFixed(2))
+                        addValueToAa(aaNewValue)
+                    }
+                }
+                else {
+                    if (stocks.marketTrend == true) {
+                        const aaNewValue: number = aaLastValue - Number((Math.random() * 1.6).toFixed(2))
+                        addValueToAa(aaNewValue)
+                    }
+                    else {
+                        const aaNewValue: number = aaLastValue - Number((Math.random() * 2.5).toFixed(2))
+                        addValueToAa(aaNewValue)
+                    }
+                }
+
+                // stocks.stocks.aa?.push(aa)
             }, 3 * 1000)
         }
+
+        console.log("")
+        console.log(stocks.marketTrend)
+        console.log(stocks.stocksTrend.aaTrend)
+        console.log("")
+
+        setPivotTrend(pivotTrend + 1);
+        setPivotTrendAA(pivotTrendAA + 1);
+
+        if (pivotTrend == 10) {
+            setPivotTrend(0)
+            if (stocks.marketTrend == true) {
+                console.log("marketTrend TRUE",)
+                setStocks((prevStocks) => ({
+                    ...prevStocks,
+                    marketTrend:
+                        false,
+                }));
+            }
+            else {
+                console.log("marketTrend FALSE",)
+                setStocks((prevStocks) => ({
+                    ...prevStocks,
+                    marketTrend:
+                        true,
+                }));
+            }
+        }
+
+        if (pivotTrendAA == 4) {
+            setPivotTrendAA(0)
+            if (stocks.stocksTrend.aaTrend == true) {
+                console.log("aaTrend TRUE",)
+                setStocks((prevStocks) => ({
+                    ...prevStocks,
+                    stocksTrend: {
+                        ...prevStocks.stocksTrend,
+                        aaTrend: false,
+                    },
+                }));
+            }
+            else {
+                console.log("aaTrend FALSE")
+                setStocks((prevStocks) => ({
+                    ...prevStocks,
+                    stocksTrend: {
+                        ...prevStocks.stocksTrend,
+                        aaTrend: true,
+                    },
+                }));
+            }
+        }
+
     }, [day, play])
 
     const [loading, setLoading] = useState(false);
     const [showStocksData, setShowStocksData] = useState<Boolean>(false)
 
-    const [balance, setBalance] = useState<number>(1000)
-    const [account, setAccount] = useState<IAccount>({ stocks: { aa: 2, ab: 10 } })
-    const nonZeroStocks = Object.entries(account.stocks).filter(([key, value]) => value !== 0);
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -181,7 +289,20 @@ export default function HomeScreen() {
                         </View>
                         <View>
                             <View style={[styles.twoColsView, { paddingTop: 6 }]}>
-                                <Text style={{ color: colors.white, fontSize: 15, }}>asdasd</Text>
+                                {Object.entries(stocks.stocks).map(([key, value]) => {
+                                    // console.log("object", key, value)
+                                    return (
+                                        <View key={key} style={{ backgroundColor: colors.white, }}>
+                                            <Text style={{
+                                                color: colors.pink,
+                                                fontSize: 15,
+                                                paddingHorizontal: 4,
+                                                paddingVertical: 4
+                                            }}>{key}</Text>
+                                        </View>)
+                                })
+                                }
+
                                 {
                                     !showStocksData ?
                                         <ArrowRight2 size="25" color={colors.white} />
@@ -190,30 +311,17 @@ export default function HomeScreen() {
                             </View>
                             <LineChart
                                 data={{
-                                    labels: ["January", "February", "March", "April", "May", "June"],
+                                    labels: [""],
                                     datasets: [
                                         {
-                                            data: [
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100,
-                                                Math.random() * 100
-                                            ]
+                                            data: stocks.stocks.aa
+
                                         }
                                     ]
                                 }}
                                 width={Dimensions.get("window").width - 50} // from react-native
                                 height={220}
+                                fromZero
                                 yAxisLabel="$"
                                 yAxisSuffix="k"
                                 fromNumber={0}
@@ -222,15 +330,15 @@ export default function HomeScreen() {
                                     backgroundColor: colors.pink,
                                     backgroundGradientFrom: colors.pink,
                                     backgroundGradientTo: colors.pink,
-                                    decimalPlaces: 2, // optional, defaults to 2dp
+                                    decimalPlaces: 0, // optional, defaults to 2dp
                                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     style: {
                                         borderRadius: 60
                                     },
                                     propsForDots: {
-                                        r: "4",
-                                        strokeWidth: "2",
+                                        r: "0",
+                                        strokeWidth: "0",
                                         stroke: colors.orange
                                     }
                                 }}

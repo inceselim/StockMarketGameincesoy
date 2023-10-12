@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,16 +16,23 @@ const Stack = createNativeStackNavigator();
 import i18n from '../languages';
 import { useTranslation } from 'react-i18next'
 import SessionNavigation from './SessionNavigation';
+import { UserContext } from '../context/UserContext';
 // --------
 
 
 export default function MainNavigation() {
+    const { state, dispatch }: any = useContext(UserContext);
+    console.log("object")
+    console.log("object")
+    console.log("object")
+    console.log("object")
+    console.log("sss", state)
+    console.log("object")
     const [user1, setUser1] = useState("");
     const [log, setLog] = useState(false);
     let user;
     // let isLoggedData = useSelector(selectLogin)
     // let isUserMail = useSelector(selectUserEmail)
-    const dispatch = useDispatch()
 
     function onAuthStateChanged(user1: any) {
         setUser1(user1)
@@ -52,7 +59,7 @@ export default function MainNavigation() {
         })
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         // console.log("isLoggedData", isLoggedData)
-        console.log("CURRENT USER", auth().currentUser)
+        // console.log("CURRENT USER", auth().currentUser)
         return subscriber;
     }, []);
     const routeNameRef: any = React.useRef();
@@ -66,8 +73,8 @@ export default function MainNavigation() {
             onStateChange={async () => {
                 const previousRouteName = routeNameRef.current;
                 const currentRouteName = navigationRef.current.getCurrentRoute().name;
-                console.log("previousRouteName", previousRouteName)
-                console.log("currentRouteName", currentRouteName)
+                // console.log("previousRouteName", previousRouteName)
+                // console.log("currentRouteName", currentRouteName)
                 if (previousRouteName !== currentRouteName) {
                     await analytics().logScreenView({
                         screen_name: currentRouteName,
@@ -79,7 +86,7 @@ export default function MainNavigation() {
         >
             <StatusBar hidden={true} />
             {
-                log == false ?
+                state.user == null ?
                     <AuthNavigation />
                     :
                     <SessionNavigation />

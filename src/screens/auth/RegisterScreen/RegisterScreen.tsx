@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, SafeAreaView, ImageBackground, Image, TextInput, KeyboardAvoidingView, Alert } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +8,10 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { RegisterFirebase } from '../../../api/RegisterFirebase';
 import B2 from '../../../ads/B/B2';
+import { User, UserContext } from '../../../context/UserContext';
 
 export default function RegisterScreen() {
+    const { state, dispatch }: any = useContext(UserContext);
     const navigation: any = useNavigation();
     const { t }: any = useTranslation();
     const image = require('../../../assets/images/appstore.png');
@@ -18,26 +20,30 @@ export default function RegisterScreen() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
-    const RegisterMail = ({ userEmail, userPassword, userName }: any) => {
-        console.log("userEmail,", userEmail)
-        console.log("password,", userPassword)
-        console.log("userName,", userName)
-        if (userEmail == "") {
-            Alert.alert(`${t("Please_enter_your_email")}`)
-        }
-        else if (userName == "") {
-            Alert.alert(`${t("Please_enter_your_name")}`)
-        }
-        // else if (password != password1) {
-        //     Alert.alert(`${t("Passwords_are_different")}`)
-        // }
-        else if (userPassword.length < 6) {
-            Alert.alert(`${t("Password_is_too_short")}`)
-        }
-        else {
-            RegisterFirebase(userEmail, userPassword, userName)
-        }
-    }
+    // const RegisterMail = ({ userEmail, userPassword, userName }: any) => {
+    //     console.log("userEmail,", userEmail)
+    //     console.log("password,", userPassword)
+    //     console.log("userName,", userName)
+    //     if (userEmail == "") {
+    //         Alert.alert(`${t("Please_enter_your_email")}`)
+    //     }
+    //     else if (userName == "") {
+    //         Alert.alert(`${t("Please_enter_your_name")}`)
+    //     }
+    //     // else if (password != password1) {
+    //     //     Alert.alert(`${t("Passwords_are_different")}`)
+    //     // }
+    //     else if (userPassword.length < 6) {
+    //         Alert.alert(`${t("Password_is_too_short")}`)
+    //     }
+    //     else {
+    //         RegisterFirebase(userEmail, userPassword, userName)
+    //     }
+    // }
+    const handleRegister = ({ userName, userPassword }: User) => {
+        const user = { userName: userName, userPassword: userPassword }; // Yeni kullanıcı bilgileri
+        dispatch({ type: 'REGISTER', payload: user });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -72,7 +78,7 @@ export default function RegisterScreen() {
                         textContentType="password"
                     />
                     <ButtonPrimary
-                        onPress={() => RegisterMail({ userEmail, userPassword, userName })} text={`${i18n.t("Register")}`} />
+                        onPress={() => handleRegister({ userName, userPassword })} text={`${i18n.t("Register")}`} />
                     <ButtonSecondary onPress={() => navigation.navigate("Login")} text={`${i18n.t("Login")}`} />
                 </KeyboardAvoidingView>
             </View>

@@ -1,0 +1,48 @@
+ const [trackingStatus, setTrackingStatus] = React.useState<
+    TrackingStatus | '(loading)'
+  >('(loading)');
+
+  React.useEffect(() => {
+    request()
+    getTrackingStatus()
+      .then((status: any) => {
+        setTrackingStatus(status);
+      })
+      .catch((e) => Alert.alert('Error', e?.toString?.() ?? e));
+  }, []);
+  const request = React.useCallback(async () => {
+    try {
+      const status = await requestTrackingPermission();
+      setTrackingStatus(status);
+    } catch (e: any) {
+      Alert.alert('Error', e?.toString?.() ?? e);
+    }
+  }, []);
+  async function getTrackingStatus() {
+    const trackingStatus: any = getTrackingStatus();
+    if (trackingStatus === 'authorized' || trackingStatus === 'unavailable') {
+      // enable tracking features
+    }
+  }
+  useEffect(() => {
+    getTrackingStatus()
+    console.log('DEVICE INFO APPSCREEN', DeviceInfo.getVersion());
+    let tmpVersion = DeviceInfo.getVersion();
+    setAppVersion(tmpVersion);
+    //
+    // Platform bilgilerinin alınması
+    //
+    async function getPlatform() {
+      if (Platform.OS == "android") {
+        if (DeviceInfo.getVersion() != versionAndroid) {
+          Alert.alert("Uyarı", "Mevcut Sürümünüz Güncel Değil")
+        }
+      }
+      else {
+        if (DeviceInfo.getVersion() != versionIos) {
+          Alert.alert("Uyarı", "Mevcut Sürümünüz Güncel Değil")
+        }
+      }
+    }
+    getPlatform()
+  }, [])

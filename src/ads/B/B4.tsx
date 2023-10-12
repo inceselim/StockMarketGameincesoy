@@ -8,7 +8,7 @@ const adUnitId = Platform.OS === "ios" ?
 
 
 function B4() {
-    console.log("D1 ad id:" + adUnitId)
+    // console.log("D1 ad id:" + adUnitId)
     return (
         <BannerAd
             unitId={adUnitId}

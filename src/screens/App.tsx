@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store/store';
@@ -10,9 +10,11 @@ import {
   TrackingStatus,
 } from 'react-native-tracking-transparency';
 import { Alert } from 'react-native';
+import { UserContext, UserContextProvider } from '../context/UserContext'; // Context dosyanızın yolunu güncelleyin
+
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function App(): JSX.Element {
   const [trackingStatus, setTrackingStatus] = React.useState<
     TrackingStatus | '(loading)'
   >('(loading)');
@@ -51,7 +53,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MainNavigation />
+      <UserContextProvider>
+        <MainNavigation />
+      </UserContextProvider>
     </Provider>
   );
 }

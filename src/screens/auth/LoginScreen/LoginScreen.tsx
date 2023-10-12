@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, SafeAreaView, ImageBackground, Image, TextInput, KeyboardAvoidingView, Alert, TouchableOpacity } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { useTranslation } from 'react-i18next';
@@ -8,21 +8,30 @@ import { useNavigation } from '@react-navigation/native';
 import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { LoginFirebase } from '../../../api/LoginFirebase';
 import B1 from '../../../ads/B/B1';
+import { User, UserContext } from '../../../context/UserContext';
 
 export default function LoginScreen() {
+    const { state, dispatch }: any = useContext(UserContext);
+
     const navigation: any = useNavigation();
     const { t }: any = useTranslation();
     const image = require('../../../assets/images/appstore.png');
 
-    const [userEmail, setUserEmail] = useState("");
+    const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
-    const login = ({ userEmail, userPassword }: any) => {
-        if (userEmail !== '' && userPassword !== '') {
-            LoginFirebase({ userEmail, userPassword });
-        } else {
-            Alert.alert('Tüm Alanları Doldurunuz');
-        }
+    // const login = ({ userEmail, userPassword }: any) => {
+    //     if (userEmail !== '' && userPassword !== '') {
+    //         LoginFirebase({ userEmail, userPassword });
+    //     } else {
+    //         Alert.alert('Tüm Alanları Doldurunuz');
+    //     }
+    // };
+
+
+    const handleLogin = ({ userName, userPassword }: User) => {
+        const user: User = { userName: userName, userPassword: userPassword }; // Giriş yapan kullanıcı bilgileri
+        dispatch({ type: 'LOGIN', payload: user });
     };
     return (
         <SafeAreaView style={styles.container}>
@@ -34,8 +43,8 @@ export default function LoginScreen() {
                 <KeyboardAvoidingView behavior='height'>
                     <TextInput style={styles.textInput}
                         placeholder={`${i18n.t("Email Address")}`}
-                        value={userEmail}
-                        onChangeText={setUserEmail}
+                        value={userName}
+                        onChangeText={setUserName}
                         placeholderTextColor={"#666"}
                         autoCapitalize="none"
                         textContentType="emailAddress"
@@ -51,7 +60,7 @@ export default function LoginScreen() {
                     <TouchableOpacity onPress={() => navigation.navigate("Reset")}>
                         <Text style={styles.text1Bold}>{`${i18n.t("Forgot Your Password")}`}</Text>
                     </TouchableOpacity>
-                    <ButtonPrimary onPress={() => login({ userEmail, userPassword })} text={`${i18n.t("SignIn")}`} />
+                    <ButtonPrimary onPress={() => handleLogin({ userName, userPassword })} text={`${i18n.t("SignIn")}`} />
                     <ButtonSecondary onPress={() => navigation.navigate("Register")} text={`${i18n.t("Register")}`} />
                 </KeyboardAvoidingView>
             </View>
