@@ -1,4 +1,5 @@
 import React, { ReactNode, createContext, useContext, useReducer } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface UserContextState {
     user: User | null;
@@ -25,8 +26,21 @@ const userReducer = (state: UserContextState, action: UserAction): UserContextSt
             return { user: action.payload };
         case 'REGISTER':
             console.log("")
-            console.log("userReducer:",action)
+            console.log("userReducer:", action)
             console.log("")
+
+            const storeData = async (value: User) => {
+                try {
+                    const jsonValue = JSON.stringify(value);
+                    await AsyncStorage.setItem('userData', jsonValue);
+                } catch (e) {
+                    // saving error
+                }
+            };
+            storeData({
+                userName: action.payload.userName,
+                userPassword: action.payload.userPassword
+            })
             return { user: action.payload };
         case 'LOGOUT':
             return { user: null };

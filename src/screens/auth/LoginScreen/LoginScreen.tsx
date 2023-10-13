@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ImageBackground, Image, TextInput, KeyboardAvoidingView, Alert, TouchableOpacity } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { ButtonSecondary } from '../../../components/ButtonSecondary';
 import { LoginFirebase } from '../../../api/LoginFirebase';
 import B1 from '../../../ads/B/B1';
 import { User, UserContext } from '../../../context/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
     const { state, dispatch }: any = useContext(UserContext);
@@ -27,11 +28,29 @@ export default function LoginScreen() {
     //         Alert.alert('Tüm Alanları Doldurunuz');
     //     }
     // };
-
+    const rememberUser = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('userData');
+            console.log("jsonValue", jsonValue)
+            const user: User = { userName: userName, userPassword: userPassword }; // Giriş yapan kullanıcı bilgileri
+            dispatch({ type: 'LOGIN', payload: user });
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch (e) {
+            // error reading value
+        }
+    };
+    useEffect(() => {
+        rememberUser()
+    }, [])
 
     const handleLogin = ({ userName, userPassword }: User) => {
-        const user: User = { userName: userName, userPassword: userPassword }; // Giriş yapan kullanıcı bilgileri
-        dispatch({ type: 'LOGIN', payload: user });
+        if (userName == "" && userPassword == "") {
+            Alert.alert("Hata", "Lütfen Tüm Alanları Doldurunuz...")
+        }
+        else {
+            const user: User = { userName: userName, userPassword: userPassword }; // Giriş yapan kullanıcı bilgileri
+            dispatch({ type: 'LOGIN', payload: user });
+        }
     };
     return (
         <SafeAreaView style={styles.container}>
