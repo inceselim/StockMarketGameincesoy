@@ -1,0 +1,106 @@
+
+fastlane for iOS
+
+xcode-select --install
+sudo gem install fastlane
+fastlane init       //fastlane başlat
+
+PRODUCE_COMPANY_NAME="YOUR COMPANY NAME" fastlane init
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+You can find your shell profile at ~/.bashrc, ~/.bash_profile, ~/.profile or ~/.zshrc depending on your system.
+
+lane :release do
+  api_key = app_store_connect_api_key(
+    key_id: "D383SF739",
+    issuer_id: "6053b7fe-68a8-4acb-89be-165aa6465141",
+    key_filepath: "./AuthKey_fastlane1KEY_WZ5PNDV6D3.p8",
+    duration: 1200, # optional (maximum 1200)
+    in_house: false # optional but may be required if using match/sigh
+  )
+
+  pilot(api_key: api_key)
+end
+
+fastlane spaceauth -u user@email.com
+
+
+lane :tests do
+  run_tests(workspace: "Example.xcworkspace",
+            devices: ["iPhone 6s", "iPad Air"],
+            scheme: "MyAppTests")
+end
+
+
+fastlane snapshot init
+
+increment_version_number(
+  # version_number: "2.1.1" # Set a specific version number
+  bump_type: "major" # Automatically increment major version number
+)
+increment_build_number(
+  build_number: "3" # set a specific number
+)
+fastlane run increment_build_number
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+------------------------------------------------------------------
+desc "Build"
+lane :build do
+  gradle(
+     task: "assemble",
+     flavor: "demo",
+     build_type: "Release"
+   )
+end
+To build the app, run:
+
+fastlane build
+------------------------------------------------------------------
+fastlane add_plugin increment_version_code
+
+desc "Increment version code"
+lane :increment_vc do
+  increment_version_code(
+    gradle_file_path: "./app/build.gradle",
+  )
+end
+
+fastlane increment_vc
+------------------------------------------------------------------
+fastlane add_plugin get_version_name
+
+desc "Get version name"
+lane :get_version_name do
+  get_version_name(
+    gradle_file_path: "./app/build.gradle",
+  )
+end
+
+fastlane get_version_name
+------------------------------------------------------------------
+
+fastlane add_plugin versioning_android
+
+
+desc "Increment version name"
+lane :increment_vn do
+  android_increment_version_name(
+    gradle_file_path: "./app/build.gradle",
+  )
+end
+
+fastlane increment_vn       //Run the lane in your terminal
+------------------------------------------------------------------

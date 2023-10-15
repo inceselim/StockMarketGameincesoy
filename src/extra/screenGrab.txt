@@ -1,0 +1,47 @@
+sudo gem install screengrab
+androidTestImplementation 'tools.fastlane:screengrab:x.x.x'
+---------------
+src/debug/AndroidManifest.xml
+
+<!-- FASTLANE BEGIN -->
+<!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
+<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+
+<!-- Allows for storing and retrieving screenshots -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+       tools:ignore="ScopedStorage" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+<!-- Allows changing locales -->
+<uses-permission
+       android:name="android.permission.CHANGE_CONFIGURATION"
+       tools:ignore="ProtectedPermissions" />
+<!-- FASTLANE END -->
+
+
+app.buildgradle ADD
+
+testImplementation 'junit:junit:4.13.2'
+
+androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+androidTestImplementation 'androidx.test:rules:1.4.0'
+
+androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
+
+
+defaultConfig ADD
+testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+
+For more information about all available options run
+fastlane action screengrab
+
+RUN
+fastlane run screengrab
+
+
+sudo gem install screengrab
+androidTestImplementation "tools.fastlane:screengrab:x.x.x"
+https://search.maven.org/artifact/tools.fastlane/screengrab

@@ -16,35 +16,24 @@ import B1 from '../../../ads/B/B1';
 import B2 from '../../../ads/B/B2';
 import B3 from '../../../ads/B/B3';
 import G1 from '../../../ads/G/G1';
-
-
-
-interface IStocks {
-    marketTrend: boolean,
-    stocksTrend: {
-        aaTrend: boolean
-    }
-    stocks: {
-        aa: number[];
-        abc?: number;
-        cas?: number;
-    };
-}
+import { IStocks } from './IStocks';
+import BottomTab from '../../../components/BottomTab';
 
 export default function HomeScreen() {
     const { t }: any = useTranslation();
     const navigation: any = useNavigation();
     const [tabState, setTabState] = useState(true);
 
+    G1()
     const [day, setDay] = useState<number>(0);
     const [play, setPlay] = useState<boolean>(false);
     const [pivotTrend, setPivotTrend] = useState<number>(0);
     const [pivotTrendAA, setPivotTrendAA] = useState<number>(0);
     const [stocks, setStocks] = useState<IStocks>({
         marketTrend: true,
-        stocksTrend: { aaTrend: true },
+        stocksTrend: { aaTrend: true, ccaTrend: false, xahTrend: false },
         stocks: {
-            aa: [22], abc: 12, cas: 12
+            aa: [22], cca: [12], xah: [12]
         }
     });
     const [balance, setBalance] = useState<number>(1000)
@@ -80,17 +69,17 @@ export default function HomeScreen() {
                         addValueToAa(aaNewValue)
                     }
                     else {
-                        const aaNewValue: number = aaLastValue + Number((Math.random() * 1.5).toFixed(2))
+                        const aaNewValue: number = aaLastValue + Number((Math.random() * 1.3).toFixed(2))
                         addValueToAa(aaNewValue)
                     }
                 }
                 else {
                     if (stocks.marketTrend == true) {
-                        const aaNewValue: number = aaLastValue - Number((Math.random() * 1.6).toFixed(2))
+                        const aaNewValue: number = aaLastValue - Number((Math.random() * 1.3).toFixed(2))
                         addValueToAa(aaNewValue)
                     }
                     else {
-                        const aaNewValue: number = aaLastValue - Number((Math.random() * 2.5).toFixed(2))
+                        const aaNewValue: number = aaLastValue - Number((Math.random() * 2.4).toFixed(2))
                         addValueToAa(aaNewValue)
                     }
                 }
@@ -129,23 +118,23 @@ export default function HomeScreen() {
 
         if (pivotTrendAA == 4) {
             setPivotTrendAA(0)
-            if (stocks.stocksTrend.aaTrend == true) {
-                console.log("aaTrend TRUE",)
-                setStocks((prevStocks) => ({
-                    ...prevStocks,
-                    stocksTrend: {
-                        ...prevStocks.stocksTrend,
-                        aaTrend: false,
-                    },
-                }));
-            }
-            else {
-                console.log("aaTrend FALSE")
+            if (stocks.stocksTrend.aaTrend == false || stocks.stocks.aa[stocks.stocks.aa.length - 1] < 3) {
+                // console.log("aaTrend false",)
                 setStocks((prevStocks) => ({
                     ...prevStocks,
                     stocksTrend: {
                         ...prevStocks.stocksTrend,
                         aaTrend: true,
+                    },
+                }));
+            }
+            else {
+                // console.log("aaTrend TRUE")
+                setStocks((prevStocks) => ({
+                    ...prevStocks,
+                    stocksTrend: {
+                        ...prevStocks.stocksTrend,
+                        aaTrend: false,
                     },
                 }));
             }
@@ -159,59 +148,57 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <ScrollView>
-                    <View style={styles.threeColsView}>
-                        <View style={{
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: colors.pink,
-                            borderRadius: 8,
-                            paddingHorizontal: 14,
-                            height: 50,
-                            marginVertical: 12,
-                            marginRight: 8,
-                        }}>
-                            <Text style={{
-                                fontSize: 14,
-                                color: colors.blueDark,
-                                textAlign: "center",
-                                fontWeight: "bold",
-                            }}>{i18n.t("Day")}
-                            </Text>
-                            <Text style={{
-                                fontSize: 18,
-                                fontWeight: "bold",
-                                color: colors.white
-                            }}>{day}</Text>
-                        </View>
-                        <ButtonPlus onPress={() => setPlay(!play)}>
-                            <Text style={{
-                                paddingRight: 2,
-                                fontWeight: "bold",
-                                fontStyle: "italic",
-                                color: colors.blueDark
-                            }}>{play ? "Stop" : "Play"}</Text>
-                            {
-                                play ?
-                                    <Stop size="32" variant='Bulk' color={colors.white} />
-                                    :
-                                    <Play size="32" color={colors.white} />
-                            }
-                        </ButtonPlus>
-                        <ScrollView>
-                            <ButtonPrimary
-                                onPress={() => navigation.navigate("StatisticsScreen")}
-                                text={tabState ? `${i18n.t("Statistics")}` : `${i18n.t("My Account")}`}>
-                                {
-                                    tabState ?
-                                        <Bank size="16" color={colors.orange} />
-                                        : <Activity size="16" color={colors.orange} />
-                                }
-                            </ButtonPrimary>
-                        </ScrollView>
+                <View style={styles.threeColsView}>
+                    <View style={{
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: colors.pink,
+                        borderRadius: 8,
+                        paddingHorizontal: 14,
+                        height: 50,
+                        marginVertical: 10,
+                        marginRight: 8,
+                    }}>
+                        <Text style={{
+                            fontSize: 14,
+                            color: colors.blueDark,
+                            textAlign: "center",
+                            fontWeight: "bold",
+                        }}>{i18n.t("Day")}
+                        </Text>
+                        <Text style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            color: colors.white
+                        }}>{day}</Text>
                     </View>
-                </ScrollView>
+                    <ButtonPlus onPress={() => setPlay(!play)}>
+                        <Text style={{
+                            paddingRight: 2,
+                            fontWeight: "bold",
+                            fontStyle: "italic",
+                            color: colors.blueDark
+                        }}>{play ? "Stop" : "Play"}</Text>
+                        {
+                            play ?
+                                <Stop size="18" variant='Bulk' color={colors.white} />
+                                :
+                                <Play size="18" color={colors.white} />
+                        }
+                    </ButtonPlus>
+                    <ScrollView>
+                        <ButtonPrimary
+                            onPress={() => navigation.navigate("StatisticsScreen")}
+                            text={tabState ? `${i18n.t("Statistics")}` : `${i18n.t("My Account")}`}>
+                            {
+                                tabState ?
+                                    <Bank size="16" color={colors.orange} />
+                                    : <Activity size="16" color={colors.orange} />
+                            }
+                        </ButtonPrimary>
+                    </ScrollView>
+                </View>
                 <ScrollView>
                     <View style={{
                         borderRadius: 8,
@@ -224,52 +211,6 @@ export default function HomeScreen() {
                             <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", paddingBottom: 14 }}>{t("Balance")}:</Text>
                             <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", paddingBottom: 14 }}>{balance} $</Text>
                         </View>
-                        <TouchableOpacity onPress={() => setShowStocksData(!showStocksData)}
-                            style={styles.twoColsView}>
-                            {
-                                !showStocksData ?
-                                    <Text style={{
-                                        paddingTop: 6,
-                                        color: colors.white,
-                                        fontSize: 18,
-                                        fontWeight: "bold",
-                                    }}>Stocks</Text>
-                                    : <Text />
-                            }
-                            {
-                                !showStocksData ?
-                                    <ArrowRight2 size="25" color={colors.white} />
-                                    : <ArrowDown2 size="25" color={colors.white} />
-                            }
-                        </TouchableOpacity>
-                        {
-                            showStocksData == true &&
-                            <>
-                                <View style={styles.twoColsView}>
-                                    <Text style={{
-                                        paddingTop: 6,
-                                        color: colors.white,
-                                        fontSize: 18,
-                                        fontWeight: "bold",
-                                    }}>{t("Stocks")}</Text>
-                                    <Text style={{
-                                        paddingTop: 6,
-                                        color: colors.white,
-                                        fontSize: 18,
-                                        fontWeight: "bold",
-                                    }}>{t("Amount")}</Text>
-                                </View>
-                                {
-                                    nonZeroStocks.map(([key, value]) => (
-                                        <View key={key}
-                                            style={styles.twoColsView}>
-                                            <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", paddingBottom: 14 }}>{key}</Text>
-                                            <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", paddingBottom: 14 }}>{value}</Text>
-                                        </View>
-                                    ))
-                                }
-                            </>
-                        }
                     </View>
                     <View style={{
                         marginVertical: 12,
@@ -289,65 +230,34 @@ export default function HomeScreen() {
                         </View>
                         <View>
                             <View style={[styles.twoColsView, { paddingTop: 6 }]}>
-                                {Object.entries(stocks.stocks).map(([key, value]) => {
-                                    // console.log("object", key, value)
-                                    return (
-                                        <View key={key} style={{ backgroundColor: colors.white, }}>
-                                            <Text style={{
-                                                color: colors.pink,
-                                                fontSize: 15,
-                                                paddingHorizontal: 4,
-                                                paddingVertical: 4
-                                            }}>{key}</Text>
-                                        </View>)
-                                })
-                                }
-
-                                {
-                                    !showStocksData ?
-                                        <ArrowRight2 size="25" color={colors.white} />
-                                        : <ArrowDown2 size="25" color={colors.white} />
-                                }
-                            </View>
-                            <LineChart
-                                data={{
-                                    labels: [""],
-                                    datasets: [
-                                        {
-                                            data: stocks.stocks.aa
-
-                                        }
-                                    ]
-                                }}
-                                width={Dimensions.get("window").width - 50} // from react-native
-                                height={220}
-                                fromZero
-                                yAxisLabel="$"
-                                yAxisSuffix="k"
-                                fromNumber={0}
-                                yAxisInterval={1} // optional, defaults to 1
-                                chartConfig={{
-                                    backgroundColor: colors.pink,
-                                    backgroundGradientFrom: colors.pink,
-                                    backgroundGradientTo: colors.pink,
-                                    decimalPlaces: 0, // optional, defaults to 2dp
-                                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                                    style: {
-                                        borderRadius: 60
-                                    },
-                                    propsForDots: {
-                                        r: "0",
-                                        strokeWidth: "0",
-                                        stroke: colors.orange
+                                <ScrollView
+                                >
+                                    {Object.entries(stocks.stocks).map(([key, value]) => {
+                                        // console.log("object", key, value)
+                                        return (
+                                            <View key={key}
+                                                style={[styles.twoColsView, {}]}>
+                                                <Text style={{
+                                                    color: colors.white,
+                                                    fontSize: 15,
+                                                    paddingHorizontal: 4,
+                                                    paddingVertical: 4,
+                                                    fontWeight: "bold"
+                                                }}>{key}</Text>
+                                                <Text style={{
+                                                    color: colors.white,
+                                                    fontSize: 15,
+                                                    paddingHorizontal: 4,
+                                                    paddingVertical: 4,
+                                                    fontWeight: "bold"
+                                                }}>{Number(stocks.stocks[key][stocks.stocks[key].length - 1]).toFixed(2)}</Text>
+                                            </View>
+                                        )
+                                    })
                                     }
-                                }}
-                                bezier
-                                style={{
-                                    marginVertical: 8,
-                                    borderRadius: 16
-                                }}
-                            />
+                                </ScrollView>
+                            </View>
+
                         </View>
                     </View>
                     <View style={{
@@ -402,7 +312,7 @@ export default function HomeScreen() {
                     </View>
                 </ScrollView >
             </View>
-            {/* <BottomTab /> */}
+            <BottomTab />
         </SafeAreaView>
     );
 }

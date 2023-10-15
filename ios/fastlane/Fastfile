@@ -1,0 +1,67 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    # add actions here: https://docs.fastlane.tools/actions
+  end
+end
+
+version = get_version_number(xcodeproj: "StockMarketGameincesoy.xcodeproj")
+increment_version_number(
+  version_number: version + 1 # Set a specific version number
+  # bump_type: "major" # Automatically increment major version number
+  # bump_type: "minor"
+)
+increment_build_number(
+  build_number: "6", # set a specific number
+  xcodeproj: "StockMarketGameincesoy.xcodeproj",
+  target: "App"
+)
+
+lane :release do
+    api_key = app_store_connect_api_key(
+      key_id: "WZ5PNDV6D3",
+      issuer_id: "ffa255a2-d1db-4e51-9d44-ec1d741963b6",
+      key_filepath: "./fastlane/AuthKey_fastlane1KEY_WZ5PNDV6D3.p8",
+      # duration: 1200, # optional (maximum 1200)
+      in_house: false # optional but may be required if using match/sigh
+    )
+
+    pilot(api_key: api_key)
+    
+    build_app(
+      scheme: "StockMarketGameincesoy",
+      workspace: "StockMarketGameincesoy.xcworkspace",
+      include_bitcode: true,
+      clean: true,
+      output_directory: 'fastlane_builds/'
+    )
+    # ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t Signiant"
+    ENV['DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS']= ""
+    upload_to_app_store(
+      api_key: api_key,
+      app_identifier: "com.incesoy.stockmarketgameincesoy",
+      ipa: "./fastlane_builds/App.ipa",
+      precheck_include_in_app_purchases: false,
+      force: true,
+      skip_screenshots: true,
+      skip_app_version_update: true,
+      run_precheck_before_submit: false
+    )
+end
