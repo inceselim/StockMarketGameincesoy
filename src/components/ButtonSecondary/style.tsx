@@ -5,6 +5,7 @@ export const style = StyleSheet.create({
     btn: {
         backgroundColor: colors.blueLight,
         borderRadius: 8,
+        height:50,
         marginVertical: 12,
         borderWidth:1,
         borderColor:colors.blueDark,

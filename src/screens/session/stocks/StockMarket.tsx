@@ -2,27 +2,26 @@ import { Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../../../styles/colors'
 import { LineChart } from 'react-native-chart-kit'
-import { IStocks } from '../home/IStocks'
+import { IStocks } from '../../../constants/IStocks'
+import { useDispatch, useSelector } from 'react-redux'
+import { styles } from '../../../styles/styles'
+import HeaderMenu from '../../../components/HeaderMenu'
 
-type Props = {}
-
-const StockMarket = (props: Props) => {
-    const [stocks, setStocks] = useState<IStocks>({
-        marketTrend: true,
-        stocksTrend: { aaTrend: true },
-        stocks: {
-            aa: [22], abc: 12, cas: 12
-        }
-    });
+const StockMarket = (props: any) => {
+    const dispatch: any = useDispatch();
+    let aa: any = useSelector((state: any) => state.stockSlice.aa)
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.content}>
+                <HeaderMenu />
+            </View>
             <Text>StockMarket</Text>
             <LineChart
                 data={{
                     labels: [""],
                     datasets: [
                         {
-                            data: stocks.stocks.aa
+                            data: aa
 
                         }
                     ]
@@ -68,6 +67,4 @@ const StockMarket = (props: Props) => {
     )
 }
 
-export default StockMarket
-
-const styles = StyleSheet.create({})
+export default StockMarket;

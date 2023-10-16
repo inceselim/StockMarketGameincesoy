@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import HomeScreen from '../screens/session/home/HomeScreen';
 import ProfileScreen from '../screens/session/profile';
 import { StatisticsScreen } from '../screens/session/statistics/StatisticsScreen';
+import StockMarket from '../screens/session/stocks/StockMarket';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function SessionNavigation() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="StatisticsScreen" component={StatisticsScreen} />
+            <Stack.Screen name="StockMarket" component={StockMarket} />
         </Stack.Navigator>
     );
 }

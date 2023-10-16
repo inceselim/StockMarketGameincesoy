@@ -11,7 +11,7 @@ function B1() {
     return (
         <BannerAd
             unitId={adUnitId}
-            size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
+            size={BannerAdSize.BANNER}
             requestOptions={{
                 requestNonPersonalizedAdsOnly: false,
             }}

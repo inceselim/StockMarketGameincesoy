@@ -21,13 +21,13 @@ export default function LoginScreen() {
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
-    // const login = ({ userEmail, userPassword }: any) => {
-    //     if (userEmail !== '' && userPassword !== '') {
-    //         LoginFirebase({ userEmail, userPassword });
-    //     } else {
-    //         Alert.alert('Tüm Alanları Doldurunuz');
-    //     }
-    // };
+    const login = ({ userEmail, userPassword }: any) => {
+        if (userEmail !== '' && userPassword !== '') {
+            LoginFirebase({ userEmail, userPassword });
+        } else {
+            Alert.alert('Tüm Alanları Doldurunuz');
+        }
+    };
     const rememberUser = async () => {
         try {
             const jsonValue = await AsyncStorage.getItem('userData');

@@ -5,6 +5,7 @@ export const style = StyleSheet.create({
     btn: {
         backgroundColor: colors.blueDark,
         borderRadius: 8,
+        height:50,
         marginVertical: 12,
         paddingHorizontal: 8,
         flexDirection: "row",
