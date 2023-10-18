@@ -1,7 +1,7 @@
 import { createSlice, } from '@reduxjs/toolkit'
-import { IStocks } from '../../constants/IStocks';
-import { IMarketTrend } from '../../constants/IMarketTrend';
-import { IStockTrend } from '../../constants/IStockTrend';
+import { IStocks } from '../../interfaces/IStocks';
+import { IMarketTrend } from '../../interfaces/IMarketTrend';
+import { IStockTrend } from '../../interfaces/IStockTrend';
 
 // stocksTrend: { aaTrend: true, ccaTrend: false, xahTrend: false },
 const initialState: IStockTrend = {

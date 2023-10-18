@@ -1,6 +1,6 @@
 import { createSlice, } from '@reduxjs/toolkit'
-import { IStocks } from '../../constants/IStocks';
-import { IMarketTrend } from '../../constants/IMarketTrend';
+import { IStocks } from '../../interfaces/IStocks';
+import { IMarketTrend } from '../../interfaces/IMarketTrend';
 
 // stocksTrend: { aaTrend: true, ccaTrend: false, xahTrend: false },
 const initialState: IMarketTrend = {
@@ -21,6 +21,6 @@ const marketTrendSlice = createSlice({
 })
 
 export const { marketTrendChangeTrue, marketTrendChangeFalse, } = marketTrendSlice.actions
-export let selectMarketTrend = (state: any) => initialState.marketTrend
+export let selectMarketTrend = (state: any) => state.marketTrend
 
 export default marketTrendSlice.reducer

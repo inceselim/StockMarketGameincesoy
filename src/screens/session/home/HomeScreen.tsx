@@ -15,7 +15,7 @@ import BottomTab from '../../../components/BottomTab';
 import HeaderMenu from '../../../components/HeaderMenu';
 import { useSelector } from 'react-redux';
 
-export default function HomeScreen() {
+export default function HomeScreen(): JSX.Element {
     const { t }: any = useTranslation();
     const navigation: any = useNavigation();
     const [tabState, setTabState] = useState(true);

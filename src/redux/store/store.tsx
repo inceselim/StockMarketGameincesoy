@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from "../features/authSlice";
 import stockSlice from '../features/stockSlice';
+import daySlice from '../features/daySlice';
 
 export const store = configureStore({
     reducer: {
         authentication: authSlice,
-        stockSlice: stockSlice
+        stockSlice: stockSlice,
+        daySlice: daySlice,
     },
 });
 

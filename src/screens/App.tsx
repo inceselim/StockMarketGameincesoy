@@ -10,7 +10,8 @@ import {
   TrackingStatus,
 } from 'react-native-tracking-transparency';
 import { Alert } from 'react-native';
-import { UserContext, UserContextProvider } from '../context/UserContext'; // Context dosyanızın yolunu güncelleyin
+import { UserContextProvider } from '../context/UserContext'; // Context dosyanızın yolunu güncelleyin
+import { PlayContextProvider } from '../context/DayContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,7 +55,9 @@ export default function App(): JSX.Element {
   return (
     <Provider store={store}>
       <UserContextProvider>
-        <MainNavigation />
+        <PlayContextProvider>
+          <MainNavigation />
+        </PlayContextProvider>
       </UserContextProvider>
     </Provider>
   );

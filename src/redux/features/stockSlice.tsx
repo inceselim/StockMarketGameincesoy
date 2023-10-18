@@ -1,5 +1,5 @@
 import { createSlice, } from '@reduxjs/toolkit'
-import { IStocks } from '../../constants/IStocks';
+import { IStocks } from '../../interfaces/IStocks';
 
 // stocksTrend: { aaTrend: true, ccaTrend: false, xahTrend: false },
 const initialState: IStocks = {
