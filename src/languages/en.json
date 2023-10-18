@@ -23,9 +23,17 @@
         "Amount": "Amount",
         "Play": "Play",
         "Stop": "Stop",
+        "Buy": "Buy",
+        "Sell": "Sell",
+        "Balance": "Balance",
+        "Stock_Value": "Stock Value",
+        "Stock_Amount": "Stock Amount",
+        "Last_Balance": "Last Balance",
+        "Enter_Amount": "Enter Amount",
+        "Share Owned": "Share Owned",
         "News1": "Dünyada oluşan büyük kıtlık sonucu borsa çöküyor. Birleşme Milletler acil toplandı. Çözüm arayışı devam ediyor.",
         "News2": "Uzmanlar uyardı. Borsa büyük burhan yaşıyor, tüm hisseler düşüşte. Uzmanlar tetikte olunması gerektiğini ve fırsatlara hazır olunmasını söyledi.",
         "News3": "Uzmanlar uyardı. Borsa büyük burhan yaşıyor, tüm hisseler düşüşte. Uzmanlar tetikte olunması gerektiğini ve fırsatlara hazır olunmasını söyledi.",
-        "Stock_Name":"Stock Name"
+        "Stock_Name": "Stock Name"
     }
 }

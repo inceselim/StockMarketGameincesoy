@@ -4,12 +4,11 @@ import { colors } from "./colors";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:"#fff"
+        backgroundColor:"#fdef"
     },
     content: {
         flex: 1,
         paddingHorizontal: 12,
-        backgroundColor: "#fff"
     },
     twoColsView: {
         justifyContent: "space-between",

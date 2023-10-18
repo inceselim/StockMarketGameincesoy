@@ -36,7 +36,7 @@ export default function HomeScreen(): JSX.Element {
                         borderRadius: 8,
                         backgroundColor: colors.blueLight,
                         borderWidth: 1,
-                        paddingHorizontal: 12,
+                        paddingHorizontal: "2%",
                         paddingVertical: 12
                     }}>
                         <View style={styles.twoColsView}>

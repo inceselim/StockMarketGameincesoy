@@ -20,7 +20,7 @@ const stockSlice = createSlice({
         },
         aaTrend: (state) => {
             const aaLastValue: number = state.aa[state.aa.length - 1]
-            const aaNewValue: number = aaLastValue + Number((Math.random() * 1.2).toFixed(2))
+            const aaNewValue: number = aaLastValue + Number((Math.random() * 1.1).toFixed(2))
 
             state.aa = [...state.aa, aaNewValue]
         },
@@ -32,7 +32,7 @@ const stockSlice = createSlice({
         },
         aaTrendMarketFalse: (state) => {
             const aaLastValue: number = state.aa[state.aa.length - 1]
-            const aaNewValue: number = aaLastValue + Number((Math.random() * 1.6).toFixed(2))
+            const aaNewValue: number = aaLastValue - Number((Math.random() * 1.5).toFixed(2))
 
             state.aa = [...state.aa, aaNewValue]
         },

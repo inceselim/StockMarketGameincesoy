@@ -12,16 +12,23 @@ import { selectStockTrend, stockTrendChange, stockTrendChangeAAFalse, stockTrend
 import { store } from '../../redux/store/store';
 import { dayChange } from '../../redux/features/daySlice';
 import { PlayContext } from '../../context/DayContext';
+import DayCard from '../DayCard';
+import PlayCard from '../PlayCard';
 
 export default function HeaderMenu(): JSX.Element {
     const { isPlaying, togglePlaying } = useContext(PlayContext);
     const dispatch: any = useDispatch();
-    let aa = useSelector((state: any) => state.stockSlice.aa)
     let day: number = useSelector((state: any) => state.daySlice.day)
 
-    let stocksValues = selectStocks((state: any) => state.stockSlice)
-    let marketTrendVal = selectMarketTrend((state: any) => state)
-    let stockTrendVal = selectStockTrend((state: any) => state)
+    let stocksValues = useSelector((state: any) => state.stockSlice)
+    let marketTrendVal = useSelector((state: any) => state.marketTrendSlice.marketTrend)
+    console.log("marketTrendVal")
+    console.log("marketTrendVal", marketTrendVal)
+    console.log("marketTrendVal")
+    console.log("stocksValues",stocksValues)
+    console.log("stocksValues",stocksValues)
+    let stockTrendVal = useSelector((state: any) => state.stockTrendSlice)
+    console.log("stockTrendVal",stockTrendVal)
 
     const [play, setPlay] = useState<boolean>(isPlaying);
 
@@ -64,7 +71,7 @@ export default function HeaderMenu(): JSX.Element {
         setPivotTrend(pivotTrend + 1);
         setPivotTrendAA(pivotTrendAA + 1);
 
-        if (pivotTrend == 10) {
+        if (pivotTrend >= 10) {
             setPivotTrend(0)
             if (marketTrendVal == true) {
                 console.log("marketTrend TRUE",)
@@ -76,7 +83,7 @@ export default function HeaderMenu(): JSX.Element {
             }
         }
 
-        if (pivotTrendAA == 4) {
+        if (pivotTrendAA >= 10) {
             setPivotTrendAA(0)
             if (stockTrendVal.aaTrend == false || stocksValues.aa[stocksValues.aa.length - 1] < 3) {
                 console.log("aaTrend false",)
@@ -87,35 +94,13 @@ export default function HeaderMenu(): JSX.Element {
                 dispatch(stockTrendChangeAAFalse())
             }
         }
-    }, [play,day])
+    }, [play, day])
     return (
         <View style={{ flexDirection: "row" }}>
-            <View style={{
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "30%",
-                backgroundColor: colors.pink,
-                borderRadius: 8,
-                paddingHorizontal: 14,
-                height: 50,
-                marginVertical: 12,
-                marginRight: 8,
-            }}>
-                <Text style={{
-                    fontSize: 14,
-                    color: colors.blueDark,
-                    textAlign: "center",
-                    fontWeight: "bold",
-                }}>{i18n.t("Day")}
-                </Text>
-                <Text style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    color: colors.white
-                }}>{day}</Text>
-            </View>
-            <ButtonPlus onPress={() => setPlay(!play)}>
+            <DayCard />
+            <PlayCard onPress={() => setPlay(!play)} text={play ? "Stop" : "Play"}>
+            </PlayCard>
+            {/* <ButtonPlus onPress={() => setPlay(!play)}>
                 <Text style={{
                     paddingRight: 2,
                     fontWeight: "bold",
@@ -128,7 +113,7 @@ export default function HeaderMenu(): JSX.Element {
                         :
                         <Play size="18" color={colors.white} />
                 }
-            </ButtonPlus>
+            </ButtonPlus> */}
         </View>
     );
 }

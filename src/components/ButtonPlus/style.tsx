@@ -6,6 +6,7 @@ export const style = StyleSheet.create({
         backgroundColor: colors.orange,
         borderRadius: 8,
         height:50,
+        width:"50%",
         marginVertical: 12,
         marginHorizontal: 4,
         paddingHorizontal: 8,
@@ -16,6 +17,7 @@ export const style = StyleSheet.create({
     btnText: {
         color: colors.white,
         paddingStart: 14,
+        paddingEnd:24,
         paddingVertical: 14,
         textAlign: "center",
         fontSize: 14,

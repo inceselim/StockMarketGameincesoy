@@ -37,19 +37,19 @@ function G1() {
 
     // No advert ready to show yet
     if (loaded==false) {
-        console.log("G1 loaded if")
+        // console.log("G1 loaded if")
         if (interstitial.loaded==true){
-            console.log("G1 loaded if if loaded")
+            // console.log("G1 loaded if if loaded")
             interstitial.show();
         }
         else {
             interstitial.load()
-            console.log("G1 loaded else load")
+            // console.log("G1 loaded else load")
         }
         return null;
     }
     else if (opened == true) {
-        console.log("G1 opened elseif")
+        // console.log("G1 opened elseif")
         interstitial.load();
         setOpened(false);
     }
@@ -57,6 +57,5 @@ function G1() {
         interstitial.show();
         setLoaded(false);
     }
-
 }
 export default G1;
