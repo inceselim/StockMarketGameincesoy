@@ -7,31 +7,48 @@ import { useDispatch, useSelector } from 'react-redux'
 import { styles } from '../../../styles/styles'
 import HeaderMenu from '../../../components/HeaderMenu'
 import { selectStocks } from '../../../redux/features/stockSlice'
+import screenWidth from '../../../constants/screenWidth'
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../languages/index"
 
 const StockMarket = (props: any) => {
+    const { t }: any = useTranslation();
     const dispatch: any = useDispatch();
-    let aa: number = useSelector((state: any) => state.stockSlice.aa)
+    const selectedStock: string = props.route.params.stock
+    console.log("object")
+    console.log("object", selectedStock)
+    console.log("object")
+    console.log("object")
+    let aaValues: number[] = useSelector((state: any) => state.stockSlice.aa)
+    let ccaValues: number[] = useSelector((state: any) => state.stockSlice.cca)
+    let xahValues: number[] = useSelector((state: any) => state.stockSlice.xah)
     // let aaLastValue: number = stocksValues.aa[stocksValues.aa.length - 1]
     let stocksValues = selectStocks((state: any) => state.stockSlice)
-    let aaVal: number = stocksValues.aa[stocksValues.aa.length - 1]
+    let aaLastVal: number = stocksValues.aa[stocksValues.aa.length - 1]
+    let graphWidth: number = screenWidth * 0.91
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <HeaderMenu />
-                {/* <Text>{JSON.stringify(aaVal)}</Text> */}
+                <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Stock_Name")}: {selectedStock.toLocaleUpperCase("tr-TR")}</Text>
                 <LineChart
                     data={{
                         labels: [""],
                         datasets: [
                             {
-                                data: aa
+                                data: selectedStock == "aa" ?
+                                    aaValues :
+                                    selectedStock == "cca" ?
+                                        ccaValues :
+                                        xahValues
 
                             }
                         ]
                     }}
-                    width={Dimensions.get("window").width - 50} // from react-native
-                    height={220}
+                    width={graphWidth} // from react-native
+                    height={260}
                     fromZero
+
                     yAxisLabel="$"
                     segments={5}
                     withInnerLines
@@ -52,7 +69,8 @@ const StockMarket = (props: any) => {
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
-                            borderRadius: 60
+                            borderRadius: 40,
+                            width: screenWidth
                         },
                         propsForDots: {
                             r: "0",
