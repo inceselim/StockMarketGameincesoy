@@ -5,6 +5,7 @@ import daySlice from '../features/daySlice';
 import marketTrendSlice from '../features/marketTrendSlice';
 import stockTrendSlice from '../features/stockTrendSlice';
 import balanceSlice from '../features/balanceSlice';
+import ShareOwnedSlice from '../features/ShareOwnedSlice';
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         stockTrendSlice: stockTrendSlice,
         stockSlice: stockSlice,
         daySlice: daySlice,
+        ShareOwnedSlice:ShareOwnedSlice
     },
 });
 

@@ -10,12 +10,25 @@ const balanceSlice = createSlice({
     name: 'balanceSlice',
     initialState,
     reducers: {
-        balanceChange: (state, { payload }: any) => {
-            state.balance = state.balance + payload
+        balanceAdd: (state, action: any) => {
+            console.log("BALANCE ADD")
+            console.log("BALANCE BEFORE", state.balance)
+            console.log("BALANCE")
+            state.balance = state.balance + action.paylaod
+            console.log("BALANCE AFTER: ", state.balance)
+        },
+        balanceSubtract: (state: any, action: any,) => {
+            console.log("BALANCE SUBSTRACT", action)
+            console.log("BALANCE SUBSTRACT", action.payload)
+            console.log("BALANCE BEFORE", state.balance)
+            console.log("BALANCE")
+            state.balance = state.balance - action.payload
+            console.log("BALANCE AFTER: ", state.balance)
         },
     },
 })
 
-export const { balanceChange } = balanceSlice.actions
+export const { balanceAdd, balanceSubtract } = balanceSlice.actions
+export const selectBalance = (state: any) => state.balanceSlice.balance
 
 export default balanceSlice.reducer

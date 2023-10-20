@@ -1,5 +1,5 @@
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { colors } from '../../../styles/colors'
 import { LineChart } from 'react-native-chart-kit'
 import { IStocks } from '../../../interfaces/IStocks'
@@ -14,25 +14,83 @@ import PlayCard from '../../../components/PlayCard'
 import DayCard from '../../../components/DayCard'
 import { ButtonPrimary } from '../../../components/ButtonPrimary'
 import { useNavigation } from '@react-navigation/native'
+import { store } from '../../../redux/store/store'
+import { balanceAdd, balanceSubtract } from '../../../redux/features/balanceSlice'
+import { AddStockAmount, SubstractStockAmount } from '../../../redux/features/ShareOwnedSlice'
 
-const StockMarket = (props: any) => {
+const StockMarket = React.memo((props: any) => {
     const { t }: any = useTranslation();
     const dispatch: any = useDispatch();
     const navigation: any = useNavigation();
 
     const [amount, setAmount] = useState<any>(0);
     const [total, setTotal] = useState<any>(0);
+    const [selectedStock, setSelectedStock] = useState<any>(props.route.params.stock);
     let balance: number = useSelector((state: any) => state.balanceSlice.balance)
 
-
-    const selectedStock: string = props.route.params.stock
     let aaValues: number[] = useSelector((state: any) => state.stockSlice.aa)
     let ccaValues: number[] = useSelector((state: any) => state.stockSlice.cca)
     let xahValues: number[] = useSelector((state: any) => state.stockSlice.xah)
     // let aaLastValue: number = stocksValues.aa[stocksValues.aa.length - 1]
     let stocksValues = selectStocks((state: any) => state.stockSlice)
-    let aaLastVal: number = stocksValues.aa[stocksValues.aa.length - 1]
     let graphWidth: number = screenWidth * 0.94
+
+    const BuyStocks = (props: any) => {
+        const totalVal: any = Number(props.total)
+        const key = props.key
+        const stockAmount = props.amount
+        // const totalVal: any = Number(props.total)
+        console.log("object", props)
+        if (balance >= totalVal && props) {
+            dispatch(balanceSubtract(totalVal))
+            dispatch(AddStockAmount(props))
+        }
+        else {
+            Alert.alert(t("Error"), t("Balance_Not_Enough"))
+        }
+        setAmount(0)
+    }
+    const SellStocks = (props: any) => {
+        const totalVal = Number(props.payload)
+        const key: any = props.key
+        let shareOwnedAA = store.getState().ShareOwnedSlice.aa;
+        let shareOwnedCCA = store.getState().ShareOwnedSlice.cca;
+        let shareOwnedXAH = store.getState().ShareOwnedSlice.xah;
+
+        console.log("object", props)
+        switch (key) {
+            case "aa":
+                if (shareOwnedAA) {
+                    dispatch(balanceAdd(props.payload))
+                    dispatch(SubstractStockAmount(props))
+                }
+                else {
+                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                }
+                break;
+            case "cca":
+                if (shareOwnedAA) {
+                    dispatch(balanceAdd(props.payload))
+                    dispatch(SubstractStockAmount(props))
+                }
+                else {
+                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                }
+                break;
+            case "xah":
+                if (shareOwnedAA) {
+                    dispatch(balanceAdd(props.payload))
+                    dispatch(SubstractStockAmount(props))
+                }
+                else {
+                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                }
+                break;
+            default:
+                break;
+        }
+        setAmount(0)
+    }
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -55,7 +113,7 @@ const StockMarket = (props: any) => {
                         <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Stock_Name")}: <Text style={{ fontWeight: "bold" }}>{selectedStock.toLocaleUpperCase("tr-TR")}</Text></Text>
                         <Text style={{
                             paddingVertical: 2,
-                            fontSize:15,
+                            fontSize: 15,
                             fontWeight: "bold",
                             color: colors.blueDark,
                         }}>{t("Share Owned")}: {11}</Text>
@@ -143,7 +201,7 @@ const StockMarket = (props: any) => {
                                 paddingVertical: 2,
                                 fontWeight: "bold",
                                 color: colors.blueDark,
-                            }}>{t("Stock_Value")}: {stocksValues.aa[stocksValues.aa.length - 1]} $</Text>
+                            }}>{t("Stock_Value")}: {store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1].toFixed(2)} $</Text>
                             <Text style={{
                                 paddingVertical: 2,
                                 fontWeight: "bold",
@@ -153,7 +211,7 @@ const StockMarket = (props: any) => {
                                 paddingVertical: 14,
                                 fontWeight: "bold",
                                 color: colors.blueDark,
-                            }}>{t("Total")}: {stocksValues.aa[stocksValues.aa.length - 1] * amount} $</Text>
+                            }}>{t("Total")}: {(store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount).toFixed(2)} $</Text>
                             <Text style={{
                                 paddingVertical: 14,
                                 fontWeight: "bold",
@@ -162,7 +220,11 @@ const StockMarket = (props: any) => {
                         </View>
 
                         <View style={{ width: "30%" }}>
-                            <TouchableOpacity onPress={null} style={{
+                            <TouchableOpacity onPress={() => BuyStocks({
+                                total: (store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount),
+                                key: selectedStock,
+                                amount: amount
+                            })} style={{
                                 backgroundColor: colors.blueDark,
                                 width: "90%",
                                 borderRadius: 6,
@@ -170,7 +232,11 @@ const StockMarket = (props: any) => {
                             }}>
                                 <Text style={{ paddingVertical: 12, fontWeight: "bold", color: colors.white, textAlign: "center" }}>{t("Buy")}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={null} style={{
+                            <TouchableOpacity onPress={() => SellStocks({
+                                payload: amount,
+                                key: selectedStock,
+                                amount: amount
+                            })} style={{
                                 backgroundColor: colors.blueDark,
                                 width: "90%",
                                 borderRadius: 6
@@ -183,6 +249,6 @@ const StockMarket = (props: any) => {
             </View >
         </SafeAreaView >
     )
-}
+})
 
 export default StockMarket;
