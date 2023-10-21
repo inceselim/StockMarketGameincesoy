@@ -22,12 +22,6 @@ import { UserContext } from '../context/UserContext';
 
 export default function MainNavigation() {
     const { state, dispatch }: any = useContext(UserContext);
-    console.log("object")
-    console.log("object")
-    console.log("object")
-    console.log("object")
-    console.log("sss", state)
-    console.log("object")
     const [user1, setUser1] = useState("");
     const [log, setLog] = useState(false);
     let user;

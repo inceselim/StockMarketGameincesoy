@@ -1,4 +1,4 @@
-import { Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { colors } from '../../../styles/colors'
 import { LineChart } from 'react-native-chart-kit'
@@ -17,6 +17,9 @@ import { useNavigation } from '@react-navigation/native'
 import { store } from '../../../redux/store/store'
 import { balanceAdd, balanceSubtract } from '../../../redux/features/balanceSlice'
 import { AddStockAmount, SubstractStockAmount } from '../../../redux/features/ShareOwnedSlice'
+import style from './style'
+import formatMoney from '../../../features/FormatMoney'
+import B2 from '../../../ads/B/B2'
 
 const StockMarket = React.memo((props: any) => {
     const { t }: any = useTranslation();
@@ -34,14 +37,25 @@ const StockMarket = React.memo((props: any) => {
     // let aaLastValue: number = stocksValues.aa[stocksValues.aa.length - 1]
     let stocksValues = selectStocks((state: any) => state.stockSlice)
     let graphWidth: number = screenWidth * 0.94
+    //
+    // Tab Values
+    //
+    const [dataVal, setDataVal] = useState<number>(0)
+    // -----------------------------------
+
+    //
+    // Buy/Sell Tab Values
+    //
+    const [tabBuySell, setTabBuySell] = useState(0);
+    // -----------------------------------
 
     const BuyStocks = (props: any) => {
         const totalVal: any = Number(props.total)
         const key = props.key
         const stockAmount = props.amount
         // const totalVal: any = Number(props.total)
-        console.log("object", props)
-        if (balance >= totalVal && props) {
+        // console.log("object", props)
+        if (balance >= totalVal && stockAmount > 0) {
             dispatch(balanceSubtract(totalVal))
             dispatch(AddStockAmount(props))
         }
@@ -51,39 +65,40 @@ const StockMarket = React.memo((props: any) => {
         setAmount(0)
     }
     const SellStocks = (props: any) => {
-        const totalVal = Number(props.payload)
         const key: any = props.key
+        const amount: any = props.amount
+        const total: any = props.total
+
         let shareOwnedAA = store.getState().ShareOwnedSlice.aa;
         let shareOwnedCCA = store.getState().ShareOwnedSlice.cca;
         let shareOwnedXAH = store.getState().ShareOwnedSlice.xah;
 
-        console.log("object", props)
         switch (key) {
             case "aa":
-                if (shareOwnedAA) {
-                    dispatch(balanceAdd(props.payload))
+                if (shareOwnedAA >= amount) {
+                    dispatch(balanceAdd(total))
                     dispatch(SubstractStockAmount(props))
                 }
                 else {
-                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                    Alert.alert(t("Error"), t("Amount_Not_Enough"))
                 }
                 break;
             case "cca":
-                if (shareOwnedAA) {
-                    dispatch(balanceAdd(props.payload))
+                if (shareOwnedCCA <= amount) {
+                    dispatch(balanceAdd(total))
                     dispatch(SubstractStockAmount(props))
                 }
                 else {
-                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                    Alert.alert(t("Error"), t("Amount_Not_Enough"))
                 }
                 break;
             case "xah":
-                if (shareOwnedAA) {
-                    dispatch(balanceAdd(props.payload))
+                if (shareOwnedXAH <= amount) {
+                    dispatch(balanceAdd(total))
                     dispatch(SubstractStockAmount(props))
                 }
                 else {
-                    Alert.alert(t("Error"), t("Balance_Not_Enough"))
+                    Alert.alert(t("Error"), t("Amount_Not_Enough"))
                 }
                 break;
             default:
@@ -102,30 +117,112 @@ const StockMarket = React.memo((props: any) => {
                         paddingVertical: 12,
                         height: 50,
                         justifyContent: "center",
-                        fontSize: 16,
-                        fontWeight: "500",
+                        fontSize: 14,
+                        fontWeight: "700",
                         color: colors.blueDark,
-                    }}>{t("Balance")}: <Text style={{ fontWeight: "bold" }}>{balance}</Text></Text>
+                    }}>{formatMoney(balance.toFixed(2))}</Text>
                     <ButtonPrimary text={t("Home")} onPress={() => navigation.navigate("Home")} />
                 </View>
                 <ScrollView>
+                    <View style={style.header}>
+                        <ScrollView horizontal>
+                            <Pressable
+                                onPress={() => setDataVal(0)}
+                                style={
+                                    dataVal == 0 ?
+                                        [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 0 ? colors.orange : colors.white,
+                                            },
+                                        ]
+                                        : [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 0 ? colors.orange : colors.white
+                                            }
+                                        ]
+                                }>
+                                <Text
+                                    style={[style.headerButtonText, { color: dataVal == 0 ? "#eee" : "#001", fontSize: 16 }]}>
+                                    AA
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => setDataVal(1)}
+                                style={
+                                    dataVal == 1 ?
+                                        [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 1 ? colors.orange : colors.white,
+                                            },
+                                        ]
+                                        : [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 1 ? colors.orange : colors.white
+                                            }
+                                        ]
+                                }>
+                                <Text
+                                    style={[style.headerButtonText, { color: dataVal == 1 ? "#eee" : "#001", fontSize: 16 }]}>
+                                    CCA
+                                </Text>
+                            </Pressable>
+                            <Pressable
+                                onPress={() => setDataVal(2)}
+                                style={
+                                    dataVal == 2 ?
+                                        [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 2 ? colors.orange : colors.white,
+                                            },
+                                        ]
+                                        : [
+                                            style.headerButton,
+                                            {
+                                                backgroundColor:
+                                                    dataVal === 2 ? colors.orange : colors.white
+                                            }
+                                        ]
+                                }>
+                                <Text
+                                    style={[style.headerButtonText, { color: dataVal == 2 ? "#eee" : "#001", fontSize: 16 }]}>
+                                    XAH
+                                </Text>
+                            </Pressable>
+                        </ScrollView>
+                    </View >
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Stock_Name")}: <Text style={{ fontWeight: "bold" }}>{selectedStock.toLocaleUpperCase("tr-TR")}</Text></Text>
+                        <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Stock_Name")}: <Text style={{ fontWeight: "bold" }}>{dataVal == 0 ? "AA" : dataVal == 1 ? "CCA" : "XAH"}</Text></Text>
                         <Text style={{
                             paddingVertical: 2,
                             fontSize: 15,
                             fontWeight: "bold",
                             color: colors.blueDark,
-                        }}>{t("Share Owned")}: {11}</Text>
+                        }}>{t("Share Owned")}: {
+                                dataVal == 0 ?
+                                    store.getState().ShareOwnedSlice.aa :
+                                    dataVal == 1 ?
+                                        store.getState().ShareOwnedSlice.cca :
+                                        store.getState().ShareOwnedSlice.xah
+                            }</Text>
                     </View>
                     <LineChart
                         data={{
                             labels: [""],
                             datasets: [
                                 {
-                                    data: selectedStock == "aa" ?
+                                    data: dataVal == 0 ?
                                         aaValues :
-                                        selectedStock == "cca" ?
+                                        dataVal == 1 ?
                                             ccaValues :
                                             xahValues
 
@@ -171,6 +268,50 @@ const StockMarket = React.memo((props: any) => {
                             borderRadius: 16
                         }}
                     />
+                    <ScrollView horizontal style={{ height: 50, }}>
+                        <Pressable onPress={() => {
+                            setTabBuySell(0)
+                        }}
+                            style={{
+                                marginRight: 5,
+                                borderRadius: 6,
+                                height: 40,
+                                width: 80,
+                                backgroundColor: tabBuySell == 0 ? colors.blueDark : colors.white,
+                            }}>
+                            <Text style={{
+                                textDecorationLine: tabBuySell == 0 ? "underline" : "none",
+                                fontSize: 15, fontWeight: "bold",
+                                lineHeight: 20,
+                                paddingHorizontal: 10,
+                                textAlign: "center",
+                                paddingVertical: 10,
+                                color: tabBuySell == 0 ? colors.white : colors.blueDark
+                            }}>{t("Buy")}</Text>
+                        </Pressable>
+                        <Pressable onPress={() => {
+                            setTabBuySell(1)
+                        }}
+                            style={{
+                                marginRight: 5,
+                                borderRadius: 6,
+                                height: 40,
+                                width: 80,
+                                marginHorizontal: 12,
+                                backgroundColor: tabBuySell == 1 ? colors.blueDark : colors.white,
+                            }}
+                        >
+                            <Text style={{
+                                textDecorationLine: tabBuySell == 1 ? "underline" : "none",
+                                fontSize: 16, fontWeight: "bold",
+                                lineHeight: 20,
+                                paddingHorizontal: 10,
+                                textAlign: "center",
+                                paddingVertical: 10,
+                                color: tabBuySell == 1 ? colors.white : colors.blueDark
+                            }}>{t("Sell")}</Text>
+                        </Pressable>
+                    </ScrollView>
                     <View style={{ flexDirection: "row", backgroundColor: colors.blueLight, padding: 12, borderRadius: 8, alignItems: "center", justifyContent: "space-between" }}>
                         <View style={{ width: "65%" }}>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -197,11 +338,40 @@ const StockMarket = React.memo((props: any) => {
                                     />
                                 </View>
                             </View>
+                            <Pressable onPress={() => {
+                                tabBuySell == 0 ?
+                                    setAmount(dataVal == 0 ?
+                                        Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]) :
+                                        dataVal == 1 ?
+                                            Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]) :
+                                            Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1])
+                                    ) :
+                                    setAmount(dataVal == 0 ?
+                                        store.getState().ShareOwnedSlice.aa :
+                                        dataVal == 1 ?
+                                            store.getState().ShareOwnedSlice.cca :
+                                            store.getState().ShareOwnedSlice.xah
+
+                                    )
+                            }}>
+                                <Text style={{
+                                    textDecorationLine: "underline",
+                                    fontSize: 16, fontWeight: "bold",
+                                    lineHeight: 20,
+                                    paddingBottom: 20
+                                }}>{t("Maximum")}</Text>
+                            </Pressable>
                             <Text style={{
                                 paddingVertical: 2,
                                 fontWeight: "bold",
                                 color: colors.blueDark,
-                            }}>{t("Stock_Value")}: {store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1].toFixed(2)} $</Text>
+                            }}>{t("Stock_Value")}: {
+                                    dataVal == 0 ?
+                                        ((store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]).toFixed(2)) :
+                                        dataVal == 1 ?
+                                            ((store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]).toFixed(2)) :
+                                            ((store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1]).toFixed(2))
+                                } $</Text>
                             <Text style={{
                                 paddingVertical: 2,
                                 fontWeight: "bold",
@@ -211,41 +381,73 @@ const StockMarket = React.memo((props: any) => {
                                 paddingVertical: 14,
                                 fontWeight: "bold",
                                 color: colors.blueDark,
-                            }}>{t("Total")}: {(store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount).toFixed(2)} $</Text>
-                            <Text style={{
-                                paddingVertical: 14,
-                                fontWeight: "bold",
-                                color: colors.blueDark,
-                            }}>{t("Last_Balance")}: {balance - (stocksValues.aa[stocksValues.aa.length - 1] * amount)} $</Text>
+                            }}>{t("Total")}: {
+                                    dataVal == 0 ?
+                                        ((store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount).toFixed(2)) :
+                                        dataVal == 1 ?
+                                            ((store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1] * amount).toFixed(2)) :
+                                            ((store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1] * amount).toFixed(2))
+                                } $</Text>
                         </View>
 
+
                         <View style={{ width: "30%" }}>
-                            <TouchableOpacity onPress={() => BuyStocks({
-                                total: (store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount),
-                                key: selectedStock,
-                                amount: amount
-                            })} style={{
-                                backgroundColor: colors.blueDark,
-                                width: "90%",
-                                borderRadius: 6,
-                                marginBottom: 6,
-                            }}>
-                                <Text style={{ paddingVertical: 12, fontWeight: "bold", color: colors.white, textAlign: "center" }}>{t("Buy")}</Text>
+                            <TouchableOpacity onPress={() => tabBuySell == 0 ? BuyStocks({
+                                key: dataVal == 0 ? "aa" : dataVal == 1 ? "cca" : "xah",
+                                amount: amount,
+                                total: dataVal == 0 ?
+                                    (store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount) :
+                                    dataVal == 1 ?
+                                        (store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1] * amount) :
+                                        (store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1] * amount)
+                            }) :
+                                SellStocks({
+                                    key: dataVal == 0 ? "aa" : dataVal == 1 ? "cca" : "xah",
+                                    amount: amount,
+                                    total: dataVal == 0 ?
+                                        (store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount) :
+                                        dataVal == 1 ?
+                                            (store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1] * amount) :
+                                            (store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1] * amount)
+                                })} style={{
+                                    backgroundColor: tabBuySell == 0 ? colors.blueDark : colors.white,
+                                    width: "90%",
+                                    borderRadius: 6,
+                                    marginBottom: 6,
+                                }}>
+                                <Text style={{
+                                    paddingVertical: 12,
+                                    fontWeight: "bold",
+                                    color: tabBuySell == 0 ? colors.white : colors.blueDark,
+                                    textAlign: "center"
+                                }}>{t("Confirm")}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => SellStocks({
-                                payload: amount,
-                                key: selectedStock,
-                                amount: amount
+                            {/* <TouchableOpacity onPress={() => SellStocks({
+                                key: dataVal == 0 ? "aa" : dataVal == 1 ? "cca" : "xah",
+                                amount: amount,
+                                total: dataVal == 0 ?
+                                    (store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1] * amount) :
+                                    dataVal == 1 ?
+                                        (store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1] * amount) :
+                                        (store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1] * amount)
                             })} style={{
-                                backgroundColor: colors.blueDark,
+                                backgroundColor: tabBuySell == 0 ? colors.blueDark : colors.white,
                                 width: "90%",
                                 borderRadius: 6
                             }}>
-                                <Text style={{ paddingVertical: 12, fontWeight: "bold", color: colors.white, textAlign: "center" }}>{t("Sell")}</Text>
-                            </TouchableOpacity>
+                                <Text style={{
+                                    paddingVertical: 12,
+                                    fontWeight: "bold",
+                                    color: tabBuySell == 0 ? colors.white : colors.blueDark,
+                                    textAlign: "center"
+                                }}>{t("Sell")}</Text>
+                            </TouchableOpacity> */}
                         </View>
                     </View>
-                </ScrollView>
+                    <View style={{ alignItems: "center",marginTop:20 }}>
+                        <B2 />
+                    </View>
+                </ScrollView >
             </View >
         </SafeAreaView >
     )

@@ -11,19 +11,10 @@ const balanceSlice = createSlice({
     initialState,
     reducers: {
         balanceAdd: (state, action: any) => {
-            console.log("BALANCE ADD")
-            console.log("BALANCE BEFORE", state.balance)
-            console.log("BALANCE")
-            state.balance = state.balance + action.paylaod
-            console.log("BALANCE AFTER: ", state.balance)
+            state.balance = state.balance + Number(action.payload)
         },
         balanceSubtract: (state: any, action: any,) => {
-            console.log("BALANCE SUBSTRACT", action)
-            console.log("BALANCE SUBSTRACT", action.payload)
-            console.log("BALANCE BEFORE", state.balance)
-            console.log("BALANCE")
-            state.balance = state.balance - action.payload
-            console.log("BALANCE AFTER: ", state.balance)
+            state.balance = state.balance - Number(action.payload)
         },
     },
 })

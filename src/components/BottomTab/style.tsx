@@ -6,7 +6,7 @@ let screenWidth: any = Dimensions.get("window").width / 2
 export const style = StyleSheet.create({
     container: {
         width: "100%",
-        backgroundColor: colors.white,
+        backgroundColor: "#ab48abf",
         flexDirection: "row",
         justifyContent: "space-between"
     },
@@ -14,7 +14,7 @@ export const style = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: colors.white,
+        backgroundColor: "#dddf",
         width: screenWidth,
         paddingVertical: 14
     },
@@ -22,6 +22,6 @@ export const style = StyleSheet.create({
         color: colors.blueDark,
         textAlign: "center",
         paddingStart: 8,
-        fontWeight: "600"
+        fontWeight: "800"
     }
 })

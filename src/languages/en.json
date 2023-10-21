@@ -33,9 +33,17 @@
         "Share Owned": "Share Owned",
         "Error": "Error",
         "Balance_Not_Enough": "Balance Not Enough",
-        "News1": "Dünyada oluşan büyük kıtlık sonucu borsa çöküyor. Birleşme Milletler acil toplandı. Çözüm arayışı devam ediyor.",
-        "News2": "Uzmanlar uyardı. Borsa büyük burhan yaşıyor, tüm hisseler düşüşte. Uzmanlar tetikte olunması gerektiğini ve fırsatlara hazır olunmasını söyledi.",
-        "News3": "Uzmanlar uyardı. Borsa büyük burhan yaşıyor, tüm hisseler düşüşte. Uzmanlar tetikte olunması gerektiğini ve fırsatlara hazır olunmasını söyledi.",
+        "Amount_Not_Enough": "Amount Not Enough",
+        "Maximum": "Maximum",
+        "Confirm": "Confirm",
+        "News0": "AA Stock is in an Uptrend.",
+        "News1": "AA Stock is in a Downtrend.",
+        "News2": "Stock Market is in an Uptrend.",
+        "News3": "Stock Market is in a Downtrend.",
+        "News4": "CCA Stock is in an Uptrend.",
+        "News5": "CCA Stock is in a Downtrend.",
+        "News6": "XAH Stock is in an Uptrend.",
+        "News7": "XAH Stock is in a Downtrend.",
         "Stock_Name": "Stock Name"
     }
 }

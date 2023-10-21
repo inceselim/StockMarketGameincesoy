@@ -14,33 +14,31 @@ const ShareOwnedSlice = createSlice({
     initialState,
     reducers: {
         AddStockAmount: (state, { payload }: any) => {
-            console.log("ShareOwnedSlice ADD",payload)
             switch (payload.key) {
                 case "aa":
-                    state.aa = state.aa + payload.amount
+                    state.aa = state.aa + Number(payload.amount)
                     break;
                 case "cca":
-                    state.cca = state.cca + payload.amount
+                    state.cca = state.cca + Number(payload.amount)
                     break;
                 case "xah":
-                    state.xah = state.xah + payload.amount
+                    state.xah = state.xah + Number(payload.amount)
                     break;
                 default:
                     break;
             }
-            console.log(state)
         },
         SubstractStockAmount: (state, { payload }: any) => {
-            console.log("ShareOwnedSlice SUBSTRACT",payload)
+            // console.log("ShareOwnedSlice SUBSTRACT", payload)
             switch (payload.key) {
                 case "aa":
-                    state.aa = state.aa - payload.amount
+                    state.aa = state.aa - Number(payload.amount)
                     break;
                 case "cca":
-                    state.cca = state.cca - payload.amount
+                    state.cca = state.cca - Number(payload.amount)
                     break;
                 case "xah":
-                    state.xah = state.xah - payload.amount
+                    state.xah = state.xah - Number(payload.amount)
                     break;
                 default:
                     break;

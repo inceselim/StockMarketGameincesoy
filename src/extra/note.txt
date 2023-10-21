@@ -12,6 +12,11 @@ $
 --------------------------------------------------
 Banka ekle faiz sistemi
 Danışman ekle
+
+al sat işlem komisyonu
+Random sayısı etkinlik oluşturma
+Haber bilgileri
+High Score kısmı
 --------------------------------------------------
 export default function App(): JSX.Element {
 

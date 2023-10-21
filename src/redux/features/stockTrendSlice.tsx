@@ -25,13 +25,29 @@ const stockTrendSlice = createSlice({
         stockTrendChangeAAFalse: (state) => {
             state.aaTrend = false
         },
+        stockTrendChangeCCATrue: (state) => {
+            state.ccaTrend = true
+        },
+        stockTrendChangeCCAFalse: (state) => {
+            state.ccaTrend = false
+        },
+        stockTrendChangeXAHTrue: (state) => {
+            state.xahTrend = true
+        },
+        stockTrendChangeXAHFalse: (state) => {
+            state.xahTrend = false
+        },
     },
 })
 
 export const {
     stockTrendChange,
     stockTrendChangeAATrue,
-    stockTrendChangeAAFalse
+    stockTrendChangeAAFalse,
+    stockTrendChangeCCATrue,
+    stockTrendChangeCCAFalse,
+    stockTrendChangeXAHTrue,
+    stockTrendChangeXAHFalse,
 } = stockTrendSlice.actions
 export let selectStockTrend = (state: any) => initialState
 

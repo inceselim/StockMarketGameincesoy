@@ -14,6 +14,8 @@ import G1 from '../../../ads/G/G1';
 import BottomTab from '../../../components/BottomTab';
 import HeaderMenu from '../../../components/HeaderMenu';
 import { useSelector } from 'react-redux';
+import { store } from '../../../redux/store/store';
+import formatMoney from '../../../features/FormatMoney';
 
 export default function HomeScreen(): JSX.Element {
     const { t }: any = useTranslation();
@@ -22,11 +24,8 @@ export default function HomeScreen(): JSX.Element {
     let stockValaa: number = useSelector((state: any) => state.stockSlice.aa[state.stockSlice.aa.length - 1])
     let stockValcca: number = useSelector((state: any) => state.stockSlice.cca[state.stockSlice.cca.length - 1])
     let stockValxah: number = useSelector((state: any) => state.stockSlice.xah[state.stockSlice.xah.length - 1])
-
+    // const [newsData, setNewsData] = useState()
     G1()
-
-    const [balance, setBalance] = useState<number>(1000)
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -41,7 +40,7 @@ export default function HomeScreen(): JSX.Element {
                     }}>
                         <View style={styles.twoColsView}>
                             <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
-                            <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{balance} $</Text>
+                            <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
                         </View>
                     </View>
                     <View style={{
@@ -146,30 +145,22 @@ export default function HomeScreen(): JSX.Element {
                             }}>{t("News")}</Text>
                         </View>
                         <Text />
-                        <View style={{ paddingVertical: 12 }}>
-                            <Text style={{
-                                fontSize: 16,
-                                fontWeight: "500",
-                                paddingStart: 8,
-                                color: colors.white
-                            }}>{t("News1")}</Text>
-                        </View>
-                        <View style={{ paddingVertical: 8 }}>
-                            <Text style={{
-                                fontSize: 16,
-                                fontWeight: "500",
-                                paddingStart: 8,
-                                color: colors.white
-                            }}>{t("News2")}</Text>
-                        </View>
-                        <View style={{ paddingVertical: 8 }}>
-                            <Text style={{
-                                fontSize: 16,
-                                fontWeight: "500",
-                                paddingStart: 8,
-                                color: colors.white
-                            }}>{t("News3")}</Text>
-                        </View>
+                        {
+                            store.getState().newsSlice.news.map((item: any) => {
+                                return (
+                                    < View style={{ paddingVertical: 12 }
+                                    }>
+                                        <Text style={{
+                                            fontSize: 16,
+                                            fontWeight: "500",
+                                            paddingStart: 8,
+                                            color: colors.white
+                                        }}>{t(item)}</Text>
+                                    </View>)
+                            }
+
+                            )
+                        }
                     </View>
                     <View style={{ alignItems: "center" }}>
                         <B2 />
