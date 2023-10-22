@@ -44,9 +44,18 @@ const ShareOwnedSlice = createSlice({
                     break;
             }
         },
+        stocksUpdateAA: (state, { payload }: any) => {
+            state.aa = parseFloat(payload)
+        },
+        stocksUpdateCCA: (state, { payload }: any) => {
+            state.cca = parseFloat(payload)
+        },
+        stocksUpdateXAH: (state, { payload }: any) => {
+            state.xah = parseFloat(payload)
+        }
     },
 })
 
-export const { AddStockAmount, SubstractStockAmount } = ShareOwnedSlice.actions
+export const { AddStockAmount, SubstractStockAmount, stocksUpdateAA, stocksUpdateCCA, stocksUpdateXAH, } = ShareOwnedSlice.actions
 
 export default ShareOwnedSlice.reducer

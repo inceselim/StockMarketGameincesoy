@@ -13,11 +13,12 @@ import B3 from '../../../ads/B/B3';
 import G1 from '../../../ads/G/G1';
 import BottomTab from '../../../components/BottomTab';
 import HeaderMenu from '../../../components/HeaderMenu';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../redux/store/store';
 import formatMoney from '../../../features/FormatMoney';
 
 export default function HomeScreen(): JSX.Element {
+    const dispatch: any = useDispatch();
     const { t }: any = useTranslation();
     const navigation: any = useNavigation();
     const [tabState, setTabState] = useState(true);

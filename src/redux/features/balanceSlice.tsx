@@ -16,10 +16,13 @@ const balanceSlice = createSlice({
         balanceSubtract: (state: any, action: any,) => {
             state.balance = state.balance - Number(action.payload)
         },
+        balanceUpdate: (state: any, action: any,) => {
+            state.balance = parseFloat(action.payload)
+        },
     },
 })
 
-export const { balanceAdd, balanceSubtract } = balanceSlice.actions
+export const { balanceAdd, balanceSubtract, balanceUpdate } = balanceSlice.actions
 export const selectBalance = (state: any) => state.balanceSlice.balance
 
 export default balanceSlice.reducer

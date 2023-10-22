@@ -14,9 +14,12 @@ const daySlice = createSlice({
         dayChange: (state) => {
             state.day = state.day + 1
         },
+        dayUpdate: (state, payload) => {
+            state.day = parseFloat(payload.payload)
+        },
     },
 })
 
-export const { dayChange } = daySlice.actions
+export const { dayChange, dayUpdate } = daySlice.actions
 
 export default daySlice.reducer

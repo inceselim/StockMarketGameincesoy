@@ -123,6 +123,18 @@ const stockSlice = createSlice({
             }
 
         },
+        aaValUpdate: (state, payload) => {
+            console.log("aa type", payload.payload)
+            console.log("aa type", payload.payload)
+            console.log("aa type", typeof (payload.payload * 1))
+            state.aa = [parseInt(payload.payload) * 1]
+        },
+        ccaValUpdate: (state, payload) => {
+            state.cca = [parseInt(payload.payload) * 1]
+        },
+        xahValUpdate: (state, payload) => {
+            state.xah = [parseInt(payload.payload) * 1]
+        },
     },
 })
 
@@ -138,7 +150,10 @@ export const {
     xahTrendMarketTrend,
     xahTrend,
     xahTrendFalse,
-    xahTrendMarketFalse
+    xahTrendMarketFalse,
+    aaValUpdate,
+    ccaValUpdate,
+    xahValUpdate
 } = stockSlice.actions
 export let selectStocks = (state: any) => initialState
 export let selectStocksAA = (state: any) => initialState.aa[initialState.aa.length - 1]

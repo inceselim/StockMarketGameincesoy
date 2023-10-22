@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, TextInput, Alert } from 'react-native';
 import { styles } from '../../../styles/styles';
 import BottomTab from '../../../components/BottomTab';
 import SignOut from '../../../api/SignOutFirebase';
@@ -10,9 +10,13 @@ import database from '@react-native-firebase/database';
 import { colors } from '../../../styles/colors';
 import B1 from '../../../ads/B/B1';
 import B4 from '../../../ads/B/B4';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen() {
     const [dataStatistics, setDataStatistics] = useState([]);
+    const [userName, setUserName] = useState("")
+    const [user, setUser] = useState("")
+    const [balance, setBalance] = useState("")
     async function getStatistics() {
         database()
             .ref('/users/')
@@ -31,15 +35,46 @@ export default function ProfileScreen() {
             .then(() => {
             })
     }
+    async function Register() {
+        AsyncStorage.setItem("@userName", userName).then(() => Alert.alert("Registered"))
+    }
     // G2()
+
     useEffect(() => {
         getStatistics()
+        AsyncStorage.getItem("@userName").then((e: any) => setUser(e))
+        AsyncStorage.getItem("@balance").then((e: any) => setBalance(e))
     }, [])
     const { t }: any = useTranslation();
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text>Profile</Text>
+                {
+                    user == "" ?
+                        <>
+                            <TextInput
+                                placeholder='User Name'
+                                placeholderTextColor={"#666"}
+                                value={userName}
+                                onChangeText={setUserName}
+                                style={{
+                                    height: 50, borderRadius: 6,
+                                    paddingStart: 12,
+                                    color: colors.blueDark,
+                                    borderWidth: 1,
+                                    borderColor: colors.blueDark,
+                                    backgroundColor: colors.white,
+                                    marginBottom: 14,
+                                }}
+                            />
+                            <ButtonSecondary onPress={Register} text={`${i18n.t("Register")}`} />
+                        </>
+                        :
+                        <View style={[styles.twoColsView, { paddingHorizontal:12,borderRadius: 8, backgroundColor: colors.blueLight, borderWidth: 1, paddingVertical: 14 }]}>
+                            <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", paddingVertical: 14 }}>{user}</Text>
+                            <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", paddingVertical: 14 }}>{balance}</Text>
+                        </View>
+                }
                 <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", paddingBottom: 14 }}>{t("High Scores")}</Text>
                 <View style={{ borderRadius: 8, backgroundColor: colors.blueLight, borderWidth: 1, paddingVertical: 14 }}>
                     <FlatList data={dataStatistics}
@@ -56,7 +91,7 @@ export default function ProfileScreen() {
                         )}
                     />
                 </View>
-                <View style={{ alignItems: "center",marginHorizontal:12 }}>
+                <View style={{ alignItems: "center", marginHorizontal: 14, marginVertical: 14 }}>
                     <B4 />
                 </View>
                 <ButtonSecondary onPress={SignOut} text={`${i18n.t("SignOut")}`} />

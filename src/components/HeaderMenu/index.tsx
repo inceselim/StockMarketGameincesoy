@@ -15,6 +15,7 @@ import { PlayContext } from '../../context/DayContext';
 import DayCard from '../DayCard';
 import PlayCard from '../PlayCard';
 import { newsAdd } from '../../redux/features/newsSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HeaderMenu(): JSX.Element {
     const { isPlaying, togglePlaying } = useContext(PlayContext);
@@ -115,7 +116,17 @@ export default function HeaderMenu(): JSX.Element {
                         }
                     }
                 }
-            }, 3.2 * 1000)
+                if (store.getState().ShareOwnedSlice.aa != 22) {
+                    AsyncStorage.setItem("@balance", String(store.getState().balanceSlice.balance))
+                    AsyncStorage.setItem("@day", String(store.getState().daySlice.day))
+                    AsyncStorage.setItem("@aa", String(store.getState().ShareOwnedSlice.aa))
+                    AsyncStorage.setItem("@cca", String(store.getState().ShareOwnedSlice.cca))
+                    AsyncStorage.setItem("@xah", String(store.getState().ShareOwnedSlice.xah))
+                    AsyncStorage.setItem("@aaVal", String(store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]))
+                    AsyncStorage.setItem("@ccaVal", String(store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]))
+                    AsyncStorage.setItem("@xahVal", String(store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1]))
+                }
+            }, 4 * 1000)
         }
         setPivotTrend(pivotTrend + 1);
         setPivotTrendAA(pivotTrendAA + 1);

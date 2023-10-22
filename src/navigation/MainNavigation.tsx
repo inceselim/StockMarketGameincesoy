@@ -17,6 +17,7 @@ import i18n from '../languages';
 import { useTranslation } from 'react-i18next'
 import SessionNavigation from './SessionNavigation';
 import { UserContext } from '../context/UserContext';
+import SplashScreen from '../screens/session/splash/SplashScreen';
 // --------
 
 
@@ -58,33 +59,23 @@ export default function MainNavigation() {
     }, []);
     const routeNameRef: any = React.useRef();
     const navigationRef: any = React.useRef();
+    const [loading, setLoading] = useState(true);
+    setTimeout(() => {
+        setLoading(false)
+    }, 1.3 * 1000);
     return (
-        <NavigationContainer
-            ref={navigationRef}
-            onReady={() => {
-                routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-            }}
-            onStateChange={async () => {
-                const previousRouteName = routeNameRef.current;
-                const currentRouteName = navigationRef.current.getCurrentRoute().name;
-                // console.log("previousRouteName", previousRouteName)
-                // console.log("currentRouteName", currentRouteName)
-                if (previousRouteName !== currentRouteName) {
-                    await analytics().logScreenView({
-                        screen_name: currentRouteName,
-                        screen_class: currentRouteName,
-                    });
-                }
-                routeNameRef.current = currentRouteName;
-            }}
-        >
+        <NavigationContainer>
             <StatusBar hidden={true} />
-            {
+            {/* {
                 state.user == null ?
                     <AuthNavigation />
-                    :
+                    : */}
+            {
+                loading == true ?
+                    <SplashScreen /> :
                     <SessionNavigation />
             }
+            {/* } */}
         </NavigationContainer>
     );
 }
