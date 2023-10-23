@@ -32,6 +32,8 @@ target 'StockMarketGameincesoy' do
   use_frameworks! :linkage => :static
   project 'StockMarketGameincesoy.xcodeproj'
 
+  pod 'Firebase/Analytics'
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 

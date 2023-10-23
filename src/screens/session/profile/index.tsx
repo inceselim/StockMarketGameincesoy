@@ -70,7 +70,7 @@ export default function ProfileScreen() {
                             <ButtonSecondary onPress={Register} text={`${i18n.t("Register")}`} />
                         </>
                         :
-                        <View style={[styles.twoColsView, { paddingHorizontal:12,borderRadius: 8, backgroundColor: colors.blueLight, borderWidth: 1, paddingVertical: 14 }]}>
+                        <View style={[styles.twoColsView, { paddingHorizontal: 12, borderRadius: 8, marginTop: 16, marginBottom: 12, backgroundColor: colors.blueLight, borderWidth: 1, paddingVertical: 5 }]}>
                             <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", paddingVertical: 14 }}>{user}</Text>
                             <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", paddingVertical: 14 }}>{balance}</Text>
                         </View>

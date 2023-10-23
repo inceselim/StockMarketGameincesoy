@@ -70,11 +70,7 @@ export default function MainNavigation() {
                 state.user == null ?
                     <AuthNavigation />
                     : */}
-            {
-                loading == true ?
-                    <SplashScreen /> :
                     <SessionNavigation />
-            }
             {/* } */}
         </NavigationContainer>
     );

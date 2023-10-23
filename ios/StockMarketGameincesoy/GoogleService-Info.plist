@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:376249339122:ios:65058c1d8c0b27bc6c546b</string>
+	<key>DATABASE_URL</key>
+	<string>https://stockmarketgameincesoy-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
