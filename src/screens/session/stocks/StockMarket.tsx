@@ -28,7 +28,7 @@ const StockMarket = React.memo((props: any) => {
 
     const [amount, setAmount] = useState<any>(0);
     const [total, setTotal] = useState<any>(0);
-    const [selectedStock, setSelectedStock] = useState<any>(props.route.params.stock);
+    // const [selectedStock, setSelectedStock] = useState<any>(props.route.params.stock);
     let balance: number = useSelector((state: any) => state.balanceSlice.balance)
 
     let aaValues: number[] = useSelector((state: any) => state.stockSlice.aa)

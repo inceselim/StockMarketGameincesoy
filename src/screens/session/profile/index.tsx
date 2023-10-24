@@ -50,7 +50,7 @@ export default function ProfileScreen() {
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 {
-                    user == "" ?
+                    user == null ?
                         <>
                             <TextInput
                                 placeholder='User Name'
@@ -94,7 +94,9 @@ export default function ProfileScreen() {
                 <View style={{ alignItems: "center", marginHorizontal: 14, marginVertical: 14 }}>
                     <B4 />
                 </View>
-                <ButtonSecondary onPress={SignOut} text={`${i18n.t("SignOut")}`} />
+                <ButtonSecondary onPress={()=>{
+                    AsyncStorage.removeItem
+                }} text={`${i18n.t("SignOut")}`} />
             </View>
             <BottomTab />
         </SafeAreaView>

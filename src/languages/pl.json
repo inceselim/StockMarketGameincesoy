@@ -44,6 +44,9 @@
         "News5":                        "Akcje CCA znajdują się w trendzie spadkowym.",
         "News6":                        "Akcje XAH znajdują się w trendzie wzrostowym.",
         "News7":                        "Akcje XAH znajdują się w trendzie spadkowym.",
-        "Stock_Name":                   "Nazwa akcji"
+        "Stock_Name":                   "Nazwa akcji",
+        "Buy/Sell":                     "Kupić sprzedać",
+        "New Game":                     "Nowa gra",
+        "Load Game":                    "Wczytaj grę"
     }
 }

@@ -51,18 +51,39 @@ export default function HomeScreen(): JSX.Element {
                         paddingVertical: 12,
                         borderRadius: 8
                     }}>
-                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Chart1 size="32" color={colors.white} />
-                            <Text style={{
-                                fontSize: 16,
-                                fontWeight: "700",
-                                paddingStart: 8,
-                                color: colors.white
-                            }}>{t("Stock Market")}</Text>
+                        <View style={{ alignItems: "center", flexDirection: "row", justifyContent: "center" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", width: "50%" }}>
+                                <Chart1 size="32" color={colors.white} />
+                                <Text style={{
+                                    fontSize: 16,
+                                    fontWeight: "700",
+                                    paddingStart: 8,
+                                    color: colors.white
+                                }}>{t("Stock Market")}</Text>
+                            </View>
+                            <View style={{ width: "50%", }}>
+                                <TouchableOpacity style={[styles.twoColsView, {
+                                    backgroundColor: colors.blueDark,
+                                    borderRadius: 6,
+                                }]}
+                                    onPress={() => navigation.navigate("StockMarket")}>
+                                    <Text style={{
+                                        color: colors.white,
+                                        flex: 1,
+                                        fontSize: 15,
+                                        lineHeight: 28,
+                                        textAlign: "center",
+
+                                        paddingHorizontal: 4,
+                                        paddingVertical: 4,
+                                        fontWeight: "bold"
+                                    }}>Buy/Sell</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={[{ flexDirection: "column", paddingTop: 6 }]}>
                             <TouchableOpacity style={[styles.twoColsView,]}
-                                onPress={() => navigation.navigate("StockMarket", { stock: "aa" })}>
+                                onPress={() => navigation.navigate("StockMarket")}>
                                 <Text style={{
                                     color: colors.white,
                                     flex: 1,
@@ -83,7 +104,7 @@ export default function HomeScreen(): JSX.Element {
                                 <ArrowRight2 size="23" color={colors.white} />
                             </TouchableOpacity>
                             <TouchableOpacity style={[styles.twoColsView,]}
-                                onPress={() => navigation.navigate("StockMarket", { stock: "cca" })}>
+                                onPress={() => navigation.navigate("StockMarket")}>
                                 <Text style={{
                                     color: colors.white,
                                     flex: 1,
@@ -104,7 +125,7 @@ export default function HomeScreen(): JSX.Element {
                                 <ArrowRight2 size="23" color={colors.white} />
                             </TouchableOpacity>
                             <TouchableOpacity style={[styles.twoColsView,]}
-                                onPress={() => navigation.navigate("StockMarket", { stock: "xah" })}>
+                                onPress={() => navigation.navigate("StockMarket")}>
                                 <Text style={{
                                     color: colors.white,
                                     flex: 1,
@@ -163,9 +184,9 @@ export default function HomeScreen(): JSX.Element {
                             )
                         }
                     </View>
-                    <View style={{ alignItems: "center" }}>
+                    {/* <View style={{ alignItems: "center" }}>
                         <B2 />
-                    </View>
+                    </View> */}
                 </ScrollView >
             </View >
             <BottomTab />

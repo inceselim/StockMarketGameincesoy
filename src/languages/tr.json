@@ -44,6 +44,9 @@
     "News5": "CCA Düşüş Trendinde.",
     "News6": "XAH Yükseliş Trendinde.",
     "News7": "XAH Düşüş Trendinde.",
-    "Stock_Name": "Hisse Adı"
+    "Stock_Name": "Hisse Adı",
+    "Buy/Sell":               "Al/Sat",
+    "New Game":               "Yeni Oyun",
+    "Load Game":              "Kayıtlı Oyunu Aç"
   }
 }

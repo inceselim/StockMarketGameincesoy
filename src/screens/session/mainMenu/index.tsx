@@ -9,10 +9,13 @@ import { stocksUpdateAA, stocksUpdateCCA, stocksUpdateXAH } from '../../../redux
 import { dayUpdate } from '../../../redux/features/daySlice';
 import { aaValUpdate, ccaValUpdate, xahValUpdate } from '../../../redux/features/stockSlice';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import i18n from "../../../languages/index"
 
 export default function MainMenu() {
     const navigation: any = useNavigation();
     const dispatch: any = useDispatch();
+    const { t }: any = useTranslation();
     async function getData() {
         await AsyncStorage.getItem("@balance").then((e: any) => dispatch(balanceUpdate(e)))
         await AsyncStorage.getItem("@day").then((e: any) => dispatch(dayUpdate(e)))
@@ -40,7 +43,7 @@ export default function MainMenu() {
                             fontWeight: "700",
                             textAlign: "center",
                             paddingVertical: 14
-                        }}>New Game</Text>
+                        }}>{t("New Game")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         return (
@@ -61,7 +64,7 @@ export default function MainMenu() {
                             fontWeight: "700",
                             textAlign: "center",
                             paddingVertical: 14
-                        }}>Load Game</Text>
+                        }}>{t("Load Game")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

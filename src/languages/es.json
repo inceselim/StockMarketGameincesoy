@@ -44,6 +44,11 @@
         "News5":                 "Las acciones de CCA están en una tendencia bajista.",
         "News6":                 "Las acciones de XAH están en una tendencia alcista.",
         "News7":                 "Las acciones de XAH están en una tendencia bajista.",
-        "Stock_Name":            "Nombre de la acción"
+        "Stock_Name":            "Nombre de la acción",
+        "Buy/Sell":              "Comprar y vender",
+        "New Game":              "Nuevo juego",
+        "Load Game":             "Abrir juego guardado"
+
+
     }
 }

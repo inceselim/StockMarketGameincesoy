@@ -79,8 +79,8 @@ android {
         applicationId "com.stockmarketgameincesoy"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "2.1.3"
+        versionCode 12
+        versionName "2.1.4"
     }
     signingConfigs {
         debug {

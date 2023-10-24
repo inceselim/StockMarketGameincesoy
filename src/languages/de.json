@@ -44,6 +44,9 @@
         "News5": "CCA-Aktie befindet sich in einem Abwärtstrend.",
         "News6": "Die XAH-Aktie befindet sich im Aufwärtstrend",
         "News7": "Die XAH-Aktie befindet sich in einem Abwärtstrend.",
-        "Stock_Name": "Aktienname"
+        "Stock_Name": "Aktienname",
+        "Buy/Sell":"Kaufen Verkaufen",
+        "New Game":"Neues Spiel",
+        "Load Game":"Spiel laden"
     }
 }

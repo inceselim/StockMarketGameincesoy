@@ -44,6 +44,9 @@
         "News5":                        "Le azioni CCA sono in una tendenza al ribasso.",
         "News6":                        "Le azioni XAH sono in una tendenza rialzista.",
         "News7":                        "Le azioni XAH sono in una tendenza al ribasso.",
-        "Stock_Name":                   "Nome titolo"
+        "Stock_Name":                   "Nome titolo",
+        "Buy/Sell":                     "Comprare vendere",
+        "New Game":                     "Nuovo gioco",
+        "Load Game":                    "Carica gioco"
     }
 }

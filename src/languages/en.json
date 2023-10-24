@@ -44,6 +44,9 @@
         "News5": "CCA Stock is in a Downtrend.",
         "News6": "XAH Stock is in an Uptrend.",
         "News7": "XAH Stock is in a Downtrend.",
-        "Stock_Name": "Stock Name"
+        "Stock_Name": "Stock Name",
+        "Buy/Sell":"Buy/Sell",
+        "New Game":"New Game",
+        "Load Game":"Load Game"
     }
 }
