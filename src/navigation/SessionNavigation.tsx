@@ -17,11 +17,8 @@ const Stack = createNativeStackNavigator();
 
 export default function SessionNavigation() {
     return (
-        <Stack.Navigator initialRouteName='MainMenu' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="MainMenu" component={MainMenu} />
+        <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="StatisticsScreen" component={StatisticsScreen} />
             <Stack.Screen name="StockMarket" component={StockMarket} />
         </Stack.Navigator>
     );
