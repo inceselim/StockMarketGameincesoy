@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Provider, useDispatch, useSelector } from 'react-redux';
 import auth from "@react-native-firebase/auth"
-import { store } from '../redux/store/store';
-import AuthNavigation from '../navigation/AuthNavigation';
-import analytics from '@react-native-firebase/analytics';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,7 +66,7 @@ export default function MainNavigation() {
                 state.user == null ?
                     <AuthNavigation />
                     : */}
-                    <SessionNavigation />
+            <SessionNavigation />
             {/* } */}
         </NavigationContainer>
     );
