@@ -16,6 +16,14 @@ import HeaderMenu from '../../../components/HeaderMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../redux/store/store';
 import formatMoney from '../../../features/FormatMoney';
+import {
+    CopilotProvider,
+    CopilotStep,
+    walkthroughable,
+} from "react-native-copilot";
+
+const CopilotText = walkthroughable(Text);
+
 
 export default function HomeScreen(): JSX.Element {
     const dispatch: any = useDispatch();

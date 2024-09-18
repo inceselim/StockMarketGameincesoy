@@ -74,13 +74,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.stockmarketgameincesoy"
+    namespace "com.stockgameincesoy"
     defaultConfig {
-        applicationId "com.stockmarketgameincesoy"
+        applicationId "com.stockgameincesoy"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
-        versionName "2.1.4"
+        versionCode 1
+        versionName "1.1.4"
     }
     signingConfigs {
         debug {

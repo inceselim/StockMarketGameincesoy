@@ -1,4 +1,4 @@
-package com.stockmarketgameincesoy;
+package com.stockgameincesoy;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

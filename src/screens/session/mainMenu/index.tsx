@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, Image } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { colors } from '../../../styles/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,7 +29,17 @@ export default function MainMenu() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <View style={{ justifyContent: "center", flex: 1 }}>
+                <View style={{
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <Image source={require("../../../assets/AppIcons/playstore.png")}
+                        style={{
+                            height: 250,
+                            width: 250
+                        }} />
+                </View>
+                <View style={{ marginTop: 60, flex: 1 }}>
                     <TouchableOpacity onPress={() => navigation.navigate("Home")}
                         style={{
                             backgroundColor: colors.orange,

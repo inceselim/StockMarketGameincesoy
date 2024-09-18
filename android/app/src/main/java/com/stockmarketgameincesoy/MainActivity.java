@@ -1,4 +1,4 @@
-package com.stockmarketgameincesoy;
+package com.stockgameincesoy;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
