@@ -1,25 +1,17 @@
-import { Alert, Dimensions, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { Alert, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { colors } from '../../../styles/colors'
 import { LineChart } from 'react-native-chart-kit'
-import { IStocks } from '../../../interfaces/IStocks'
 import { useDispatch, useSelector } from 'react-redux'
-import { styles } from '../../../styles/styles'
-import HeaderMenu from '../../../components/HeaderMenu'
 import { selectStocks } from '../../../redux/features/stockSlice'
 import screenWidth from '../../../constants/screenWidth'
 import { useTranslation } from 'react-i18next';
-import i18n from "../../../languages/index"
-import PlayCard from '../../../components/PlayCard'
-import DayCard from '../../../components/DayCard'
-import { ButtonPrimary } from '../../../components/ButtonPrimary'
 import { useNavigation } from '@react-navigation/native'
 import { store } from '../../../redux/store/store'
 import { balanceAdd, balanceSubtract } from '../../../redux/features/balanceSlice'
 import { AddStockAmount, SubstractStockAmount } from '../../../redux/features/ShareOwnedSlice'
 import style from './style'
-import formatMoney from '../../../features/FormatMoney'
-import B2 from '../../../ads/B/B2'
+import formatDecimal from '../../../features/FormatDecimal'
 
 const StockMarket = React.memo((props: any) => {
     const { t }: any = useTranslation();
@@ -204,7 +196,7 @@ const StockMarket = React.memo((props: any) => {
                 </View >
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Stock_Name")}: <Text style={{ fontWeight: "bold" }}>{dataVal == 0 ? "AA" : dataVal == 1 ? "CCA" : "XAH"}</Text></Text>
-                    <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Price")}: <Text style={{ fontWeight: "bold" }}>{dataVal == 0 ? stockValaa : dataVal == 1 ? stockValcca : stockValxah}</Text></Text>
+                    <Text style={{ fontSize: 16, fontWeight: "500", paddingStart: 6 }}>{t("Price")}: <Text style={{ fontWeight: "bold" }}>{dataVal == 0 ? formatDecimal(stockValaa) : dataVal == 1 ? formatDecimal(stockValcca) : formatDecimal(stockValxah)}</Text></Text>
                     <Text style={{
                         paddingVertical: 2,
                         fontSize: 15,
@@ -233,7 +225,7 @@ const StockMarket = React.memo((props: any) => {
                         ]
                     }}
                     width={graphWidth} // from react-native
-                    height={260}
+                    height={200}
                     fromZero
 
                     yAxisLabel="$"
@@ -339,31 +331,31 @@ const StockMarket = React.memo((props: any) => {
                                     keyboardType='number-pad'
                                     placeholderTextColor={colors.blue}
                                 />
+                                <Pressable onPress={() => {
+                                    tabBuySell == 0 ?
+                                        setAmount(dataVal == 0 ?
+                                            Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]) :
+                                            dataVal == 1 ?
+                                                Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]) :
+                                                Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1])
+                                        ) :
+                                        setAmount(dataVal == 0 ?
+                                            store.getState().ShareOwnedSlice.aa :
+                                            dataVal == 1 ?
+                                                store.getState().ShareOwnedSlice.cca :
+                                                store.getState().ShareOwnedSlice.xah
+
+                                        )
+                                }}>
+                                    <Text style={{
+                                        textDecorationLine: "underline",
+                                        fontSize: 16,
+                                        fontWeight: "bold",
+                                        marginStart: 12
+                                    }}>{t("Maximum")}</Text>
+                                </Pressable>
                             </View>
                         </View>
-                        <Pressable onPress={() => {
-                            tabBuySell == 0 ?
-                                setAmount(dataVal == 0 ?
-                                    Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]) :
-                                    dataVal == 1 ?
-                                        Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]) :
-                                        Math.floor(store.getState().balanceSlice.balance / store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1])
-                                ) :
-                                setAmount(dataVal == 0 ?
-                                    store.getState().ShareOwnedSlice.aa :
-                                    dataVal == 1 ?
-                                        store.getState().ShareOwnedSlice.cca :
-                                        store.getState().ShareOwnedSlice.xah
-
-                                )
-                        }}>
-                            <Text style={{
-                                textDecorationLine: "underline",
-                                fontSize: 16, fontWeight: "bold",
-                                lineHeight: 20,
-                                paddingBottom: 20
-                            }}>{t("Maximum")}</Text>
-                        </Pressable>
                         <Text style={{
                             paddingVertical: 2,
                             fontWeight: "bold",
@@ -413,7 +405,7 @@ const StockMarket = React.memo((props: any) => {
                                         (store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1] * amount) :
                                         (store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1] * amount)
                             })} style={{
-                                backgroundColor: tabBuySell == 0 ? colors.blueDark : colors.white,
+                                backgroundColor: tabBuySell == 0 ? colors.white : colors.white,
                                 width: "90%",
                                 borderRadius: 6,
                                 marginBottom: 6,
@@ -421,7 +413,7 @@ const StockMarket = React.memo((props: any) => {
                             <Text style={{
                                 paddingVertical: 12,
                                 fontWeight: "bold",
-                                color: tabBuySell == 0 ? colors.white : colors.blueDark,
+                                color: tabBuySell == 0 ? colors.blueDark : colors.blueDark,
                                 textAlign: "center"
                             }}>{t("Confirm")}</Text>
                         </TouchableOpacity>
@@ -447,9 +439,9 @@ const StockMarket = React.memo((props: any) => {
                             </TouchableOpacity> */}
                     </View>
                 </View>
-                <View style={{ alignItems: "center", marginTop: 20 }}>
+                {/* <View style={{ alignItems: "center", marginTop: 20 }}>
                     <B2 />
-                </View>
+                </View> */}
             </ScrollView >
         </View >
     )

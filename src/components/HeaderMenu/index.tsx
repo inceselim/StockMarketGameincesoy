@@ -6,16 +6,18 @@ import { Play, Stop } from 'iconsax-react-native';
 import { colors } from '../../styles/colors';
 import { ButtonPlus } from '../../components/ButtonPlus';
 import { useDispatch, useSelector } from 'react-redux';
-import { aaTrendFalse, aaTrendMarketFalse, aaTrendMarketTrend, ccaTrendFalse, ccaTrendMarketFalse, ccaTrendMarketTrend, selectStocks, xahTrendFalse, xahTrendMarketFalse, xahTrendMarketTrend } from '../../redux/features/stockSlice';
+import { aaTrendFalse, aaTrendMarketFalse, aaTrendMarketTrend, aaValUpdate, ccaTrendFalse, ccaTrendMarketFalse, ccaTrendMarketTrend, ccaValUpdate, selectStocks, xahTrendFalse, xahTrendMarketFalse, xahTrendMarketTrend, xahValUpdate } from '../../redux/features/stockSlice';
 import { marketTrendChangeFalse, marketTrendChangeTrue, selectMarketTrend } from '../../redux/features/marketTrendSlice';
 import { selectStockTrend, stockTrendChange, stockTrendChangeAAFalse, stockTrendChangeAATrue, stockTrendChangeCCAFalse, stockTrendChangeCCATrue, stockTrendChangeXAHFalse, stockTrendChangeXAHTrue } from '../../redux/features/stockTrendSlice';
 import { store } from '../../redux/store/store';
-import { dayChange } from '../../redux/features/daySlice';
+import { dayChange, dayUpdate } from '../../redux/features/daySlice';
 import { PlayContext } from '../../context/DayContext';
 import DayCard from '../DayCard';
 import PlayCard from '../PlayCard';
 import { newsAdd } from '../../redux/features/newsSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { balanceUpdate } from '../../redux/features/balanceSlice';
+import { stocksUpdateAA, stocksUpdateCCA, stocksUpdateXAH } from '../../redux/features/ShareOwnedSlice';
 
 export default function HeaderMenu(): JSX.Element {
     const { isPlaying, togglePlaying } = useContext(PlayContext);
@@ -117,14 +119,7 @@ export default function HeaderMenu(): JSX.Element {
                     }
                 }
                 if (store.getState().ShareOwnedSlice.aa != 22) {
-                    AsyncStorage.setItem("@balance", String(store.getState().balanceSlice.balance))
-                    AsyncStorage.setItem("@day", String(store.getState().daySlice.day))
-                    AsyncStorage.setItem("@aa", String(store.getState().ShareOwnedSlice.aa))
-                    AsyncStorage.setItem("@cca", String(store.getState().ShareOwnedSlice.cca))
-                    AsyncStorage.setItem("@xah", String(store.getState().ShareOwnedSlice.xah))
-                    AsyncStorage.setItem("@aaVal", String(store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]))
-                    AsyncStorage.setItem("@ccaVal", String(store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]))
-                    AsyncStorage.setItem("@xahVal", String(store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1]))
+
                 }
             }, 4 * 1000)
         }
@@ -179,6 +174,34 @@ export default function HeaderMenu(): JSX.Element {
             }
         }
     }, [play, day])
+    const setValues = async () => {
+        await AsyncStorage.setItem("@balance", String(store.getState().balanceSlice.balance))
+        await AsyncStorage.setItem("@day", String(store.getState().daySlice.day))
+        await AsyncStorage.setItem("@aa", String(store.getState().ShareOwnedSlice.aa))
+        await AsyncStorage.setItem("@cca", String(store.getState().ShareOwnedSlice.cca))
+        await AsyncStorage.setItem("@xah", String(store.getState().ShareOwnedSlice.xah))
+        await AsyncStorage.setItem("@aaVal", String(store.getState().stockSlice.aa[store.getState().stockSlice.aa.length - 1]))
+        await AsyncStorage.setItem("@ccaVal", String(store.getState().stockSlice.cca[store.getState().stockSlice.cca.length - 1]))
+        await AsyncStorage.setItem("@xahVal", String(store.getState().stockSlice.xah[store.getState().stockSlice.xah.length - 1]))
+    }
+    async function getData() {
+        await AsyncStorage.getItem("@balance").then((e: any) => dispatch(balanceUpdate(e)))
+        await AsyncStorage.getItem("@day").then((e: any) => dispatch(dayUpdate(e)))
+        await AsyncStorage.getItem("@aa").then((e: any) => dispatch(stocksUpdateAA(e)))
+        await AsyncStorage.getItem("@cca").then((e: any) => dispatch(stocksUpdateCCA(e)))
+        await AsyncStorage.getItem("@xah").then((e: any) => dispatch(stocksUpdateXAH(e)))
+        await AsyncStorage.getItem("@aaVal").then((e: any) => dispatch(aaValUpdate(e)))
+        await AsyncStorage.getItem("@ccaVal").then((e: any) => dispatch(ccaValUpdate(e)))
+        await AsyncStorage.getItem("@xahVal").then((e: any) => dispatch(xahValUpdate(e)))
+    }
+    useEffect(() => {
+        if (day == 0) {
+            getData
+        }
+        else {
+            setValues()
+        }
+    }, [day])
     return (
         <View style={{ flexDirection: "row" }}>
             <DayCard />

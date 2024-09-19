@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Dimensions, StyleSheet } from 'react-native';
 import { styles } from '../../../styles/styles';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../styles/colors';
@@ -17,17 +17,48 @@ import {
     TourGuideZoneByPosition, // Component to use mask on overlay (ie, position absolute)
     useTourGuideController, // hook to start, etc.
 } from 'rn-tourguide'
+
 import StockMarket from '../stocks/StockMarket';
 
 export default function HomeScreen(): JSX.Element {
-    const dispatch: any = useDispatch();
     const { t }: any = useTranslation();
-    const navigation: any = useNavigation();
-    const [tabState, setTabState] = useState(true);
-    let stockValaa: number = useSelector((state: any) => state.stockSlice.aa[state.stockSlice.aa.length - 1])
-    let stockValcca: number = useSelector((state: any) => state.stockSlice.cca[state.stockSlice.cca.length - 1])
-    let stockValxah: number = useSelector((state: any) => state.stockSlice.xah[state.stockSlice.xah.length - 1])
     // G1()
+
+
+    const iconProps = { size: 40, color: '#888' }
+
+    // Use Hooks to control!
+    const {
+        canStart, // a boolean indicate if you can start tour guide
+        start, // a function to start the tourguide
+        stop, // a function  to stopping it
+        eventEmitter, // an object for listening some events
+    } = useTourGuideController()
+
+    // Can start at mount 🎉
+    // you need to wait until everything is registered 😁
+    React.useEffect(() => {
+        if (canStart) {
+            // 👈 test if you can start otherwise nothing will happen
+            start()
+        }
+    }, [canStart]) // 👈 don't miss it!
+
+    const handleOnStart = () => console.log('start')
+    const handleOnStop = () => console.log('stop')
+    const handleOnStepChange = () => console.log(`stepChange`)
+
+    React.useEffect(() => {
+        eventEmitter.on('start', handleOnStart)
+        eventEmitter.on('stop', handleOnStop)
+        eventEmitter.on('stepChange', handleOnStepChange)
+
+        return () => {
+            eventEmitter.off('start', handleOnStart)
+            eventEmitter.off('stop', handleOnStop)
+            eventEmitter.off('stepChange', handleOnStepChange)
+        }
+    }, [])
     return (
         <TourGuideProvider {...{ borderRadius: 16 }}>
             <SafeAreaView style={styles.container}>
@@ -42,10 +73,15 @@ export default function HomeScreen(): JSX.Element {
                             paddingVertical: 12,
                             marginBottom: 6
                         }}>
-                            <View style={styles.twoColsView}>
-                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
-                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
-                            </View>
+                            <TourGuideZone zone={3} shape={'This is your money'}>
+                                <View style={styles.twoColsView}>
+                                    <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
+                                    <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
+                                </View>
+                            </TourGuideZone>
+                            <TouchableOpacity style={style.button} onPress={() => start()}>
+                                <Text style={style.buttonText}>START THE TUTORIAL!</Text>
+                            </TouchableOpacity>
                         </View>
 
                         <StockMarket />
@@ -96,3 +132,54 @@ export default function HomeScreen(): JSX.Element {
         </TourGuideProvider>
     );
 }
+
+
+
+
+
+
+const style = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        paddingTop: 40,
+    },
+    title: {
+        fontSize: 24,
+        textAlign: 'center',
+    },
+    profilePhoto: {
+        width: 140,
+        height: 140,
+        borderRadius: 70,
+        marginVertical: 20,
+    },
+    middleView: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: '#2980b9',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        margin: 2,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+    },
+    row: {
+        width: '100%',
+        padding: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    activeSwitchContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        alignItems: 'center',
+        paddingHorizontal: 40,
+    },
+})

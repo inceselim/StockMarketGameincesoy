@@ -13,7 +13,6 @@ import i18n from '../languages';
 import { useTranslation } from 'react-i18next'
 import SessionNavigation from './SessionNavigation';
 import { UserContext } from '../context/UserContext';
-import SplashScreen from '../screens/session/splash/SplashScreen';
 // --------
 
 

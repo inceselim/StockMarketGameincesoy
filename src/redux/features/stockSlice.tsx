@@ -3,9 +3,9 @@ import { IStocks } from '../../interfaces/IStocks';
 
 // stocksTrend: { aaTrend: true, ccaTrend: false, xahTrend: false },
 const initialState: IStocks = {
-    aa: [22],
-    cca: [32],
-    xah: [92]
+    aa: [5],
+    cca: [9],
+    xah: [1]
 }
 
 const stockSlice = createSlice({
