@@ -23,17 +23,10 @@ import StockMarket from '../stocks/StockMarket';
 export default function HomeScreen(): JSX.Element {
     const { t }: any = useTranslation();
     // G1()
-
+    const { start, canStart, stop, eventEmitter } = useTourGuideController()
 
     const iconProps = { size: 40, color: '#888' }
 
-    // Use Hooks to control!
-    const {
-        canStart, // a boolean indicate if you can start tour guide
-        start, // a function to start the tourguide
-        stop, // a function  to stopping it
-        eventEmitter, // an object for listening some events
-    } = useTourGuideController()
 
     // Can start at mount 🎉
     // you need to wait until everything is registered 😁
@@ -73,7 +66,7 @@ export default function HomeScreen(): JSX.Element {
                             paddingVertical: 12,
                             marginBottom: 6
                         }}>
-                            <TourGuideZone zone={3} shape={'This is your money'}>
+                            <TourGuideZone zone={3} shape={'rectangle_and_keep'}>
                                 <View style={styles.twoColsView}>
                                     <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
                                     <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
@@ -126,6 +119,13 @@ export default function HomeScreen(): JSX.Element {
                         <B2 />
                     </View> */}
                     </ScrollView >
+                    <TourGuideZone
+                        zone={1}
+                        shape='circle'
+                        text={'With animated SVG morphing with awesome flubber 🍮💯'}
+                    >
+                        {/* <Image source={{ uri }} style={style.profilePhoto} /> */}
+                    </TourGuideZone>
                 </View >
                 {/* <BottomTab /> */}
             </SafeAreaView>

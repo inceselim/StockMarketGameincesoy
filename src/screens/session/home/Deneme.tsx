@@ -1,11 +1,24 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { styles } from '../../../styles/styles';
+import { useTranslation } from 'react-i18next';
+import { colors } from '../../../styles/colors';
+import { useNavigation } from '@react-navigation/native';
+import { ArchiveBook, ArrowDown2, ArrowRight2, Chart1 } from 'iconsax-react-native';
+import G1 from '../../../ads/G/G1';
+import BottomTab from '../../../components/BottomTab';
+import HeaderMenu from '../../../components/HeaderMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../../../redux/store/store';
+import formatMoney from '../../../features/FormatMoney';
 import {
     TourGuideProvider, // Main provider
     TourGuideZone, // Main wrapper of highlight component
     TourGuideZoneByPosition, // Component to use mask on overlay (ie, position absolute)
     useTourGuideController, // hook to start, etc.
 } from 'rn-tourguide'
+
+import StockMarket from '../stocks/StockMarket';
 
 // Add <TourGuideProvider/> at the root of you app!
 export function App1() {
@@ -17,6 +30,7 @@ export function App1() {
 }
 
 const AppContent = () => {
+    const { t }: any = useTranslation();
     const iconProps = { size: 40, color: '#888' }
 
     // Use Hooks to control!
@@ -25,7 +39,7 @@ const AppContent = () => {
         start, // a function to start the tourguide
         stop, // a function  to stopping it
         eventEmitter, // an object for listening some events
-    } = useTourGuideController()
+    }: any = useTourGuideController()
 
     // Can start at mount 🎉
     // you need to wait until everything is registered 😁
@@ -41,80 +55,100 @@ const AppContent = () => {
     const handleOnStepChange = () => console.log(`stepChange`)
 
     React.useEffect(() => {
-        eventEmitter.on('start', handleOnStart)
-        eventEmitter.on('stop', handleOnStop)
-        eventEmitter.on('stepChange', handleOnStepChange)
-
-        return () => {
-            eventEmitter.off('start', handleOnStart)
-            eventEmitter.off('stop', handleOnStop)
-            eventEmitter.off('stepChange', handleOnStepChange)
-        }
+        eventEmitter.on('start', () => console.log('start'))
+        eventEmitter.on('stop', () => console.log('stop'))
+        eventEmitter.on('stepChange', () => console.log(`stepChange`))
+        return () => eventEmitter.off('*', null)
     }, [])
 
     return (
-        <View style={style.container}>
-            {/*
-  
-            Use TourGuideZone only to wrap your component
-  
-        */}
-            <TourGuideZone
-                zone={2}
-                text={'A react-native-copilot remastered! 🎉'}
-                borderRadius={16}
-            >
-                <Text style={style.title}>
-                    {'Welcome to the demo of\n"rn-tourguide"'}
-                </Text>
-            </TourGuideZone>
-            <View style={style.middleView}>
-                <TouchableOpacity style={style.button} onPress={() => start()}>
-                    <Text style={style.buttonText}>START THE TUTORIAL!</Text>
-                </TouchableOpacity>
+        <SafeAreaView style={styles.container}>
 
-                <TourGuideZone zone={3} shape={'rectangle_and_keep'}>
-                    <TouchableOpacity style={style.button} onPress={() => start(4)}>
-                        <Text style={style.buttonText}>Step 4</Text>
-                    </TouchableOpacity>
+            <View style={styles.content}>
+                <TourGuideZone zone={5} shape={'rectangle'}
+                    text={'You can use this to play and pause the game and the day. Have Fun'}>
+                    <HeaderMenu />
                 </TourGuideZone>
-                <TouchableOpacity style={style.button} onPress={() => start(2)}>
-                    <Text style={style.buttonText}>Step 2</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={style.button} onPress={stop}>
-                    <Text style={style.buttonText}>Stop</Text>
-                </TouchableOpacity>
                 <TourGuideZone
                     zone={1}
-                    shape='circle'
-                    text={'With animated SVG morphing with awesome flubber 🍮💯'}
+                    shape='rectangle'
+                    text={'Welcome to Stock Market Game. You can buy and sell stocks in this game. Have fun :)'}
                 >
-                    {/* <Image source={{ uri }} style={style.profilePhoto} /> */}
                 </TourGuideZone>
-            </View>
-            {/* <View style={style.row}>
-                <TourGuideZone zone={4} shape={'circle'}>
-                    <Ionicons name='ios-contact' {...iconProps} />
-                </TourGuideZone>
-                <Ionicons name='ios-chatbubbles' {...iconProps} />
-                <Ionicons name='ios-globe' {...iconProps} />
-                <TourGuideZone zone={5}>
-                    <Ionicons name='ios-navigate' {...iconProps} />
-                </TourGuideZone>
-                <TourGuideZone zone={6} shape={'circle'}>
-                    <Ionicons name='ios-rainy' {...iconProps} />
-                </TourGuideZone>
-                <TourGuideZoneByPosition
-                    zone={7}
-                    shape={'circle'}
-                    isTourGuide
-                    bottom={30}
-                    left={35}
-                    width={300}
-                    height={300}
-                />
+                <ScrollView>
+                    <View style={{
+                        borderRadius: 8,
+                        backgroundColor: colors.blueLight,
+                        borderWidth: 1,
+                        paddingHorizontal: "2%",
+                        paddingVertical: 12,
+                        marginBottom: 6
+                    }}>
+                        <TourGuideZone zone={2} shape={'rectangle'}
+                            text={'This is your balance. You can use this to buy stocks.'}>
+                            <View style={styles.twoColsView}>
+                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
+                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
+                            </View>
+                        </TourGuideZone>
+                    </View>
+                    <TourGuideZone zone={3} shape={'rectangle'}
+                        text={'After selecting a stock here, you can examine its chart. You can look at its price, the amount of stock you have. You can buy and sell stocks from the bottom.'}>
+                        <StockMarket />
+                    </TourGuideZone>
+
+                    <TourGuideZone zone={4} shape={'rectangle'}
+                        text={'You can look here to be informed about rising and falling trends...'}>
+                        <View style={{
+                            marginVertical: 12,
+                            backgroundColor: colors.blueDark,
+                            paddingHorizontal: 8,
+                            paddingVertical: 12,
+                            borderRadius: 8
+                        }}>
+                            <View style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                            }}>
+                                <ArchiveBook size="32" color="#FF8A65" />
+                                <Text style={{
+                                    fontSize: 16,
+                                    fontWeight: "700",
+                                    paddingStart: 8,
+                                    color: colors.white
+                                }}>{t("News")}</Text>
+                                <TouchableOpacity style={style.button} onPress={() => start()}>
+                                    <Text style={style.buttonText}>TUTORIAL!</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <Text />
+                            {
+                                store.getState().newsSlice.news.map((item: any) => {
+                                    return (
+                                        < View style={{ paddingVertical: 12 }
+                                        }>
+                                            <Text style={{
+                                                fontSize: 16,
+                                                fontWeight: "500",
+                                                paddingStart: 8,
+                                                color: colors.white
+                                            }}>{t(item)}</Text>
+                                        </View>)
+                                }
+
+                                )
+                            }
+                        </View>
+                    </TourGuideZone>
+                    {/* <View style={{ alignItems: "center" }}>
+                <B2 />
             </View> */}
-        </View>
+                </ScrollView >
+            </View >
+            {/* <BottomTab /> */}
+        </SafeAreaView >
+
     )
 }
 

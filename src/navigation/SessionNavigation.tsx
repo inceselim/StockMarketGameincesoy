@@ -20,7 +20,7 @@ export default function SessionNavigation() {
     return (
         <Stack.Navigator initialRouteName='App1' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="App1" component={App1} />
-            <Stack.Screen name="Home" component={HomeScreen} />
+            {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
             <Stack.Screen name="StockMarket" component={StockMarket} />
         </Stack.Navigator>
     );
