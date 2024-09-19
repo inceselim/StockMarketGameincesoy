@@ -22,6 +22,7 @@ import StockMarket from '../stocks/StockMarket';
 
 // Add <TourGuideProvider/> at the root of you app!
 export function App1() {
+    // G1()
     return (
         <TourGuideProvider {...{ borderRadius: 16 }}>
             <AppContent />
@@ -60,7 +61,7 @@ const AppContent = () => {
         eventEmitter.on('stepChange', () => console.log(`stepChange`))
         return () => eventEmitter.off('*', null)
     }, [])
-
+    let balanceValue = useSelector((state: any) => state.balanceSlice.balance)
     return (
         <SafeAreaView style={styles.container}>
 
@@ -88,7 +89,7 @@ const AppContent = () => {
                             text={'This is your balance. You can use this to buy stocks.'}>
                             <View style={styles.twoColsView}>
                                 <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{t("Balance")}:</Text>
-                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(store.getState().balanceSlice.balance)} $</Text>
+                                <Text style={{ color: colors.blueDark, fontSize: 18, fontWeight: "600", }}>{formatMoney(balanceValue)} $</Text>
                             </View>
                         </TourGuideZone>
                     </View>
